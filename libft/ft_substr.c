@@ -1,37 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strrchr.c                                       :+:      :+:    :+:   */
+/*   ft_substr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: marlean <marlean@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/17 18:37:34 by marlean           #+#    #+#             */
-/*   Updated: 2021/10/19 13:00:21 by marlean          ###   ########.fr       */
+/*   Created: 2021/10/19 11:37:25 by marlean           #+#    #+#             */
+/*   Updated: 2021/10/20 10:24:54 by marlean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strrchr(const char *s, int c)
+char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
-	int		i;
-	int		len;
-	char	*str;
+	char			*a;
+	unsigned int	i;
 
 	i = 0;
-	len = 0;
-	str = (char *)s;
-	while (str[len])
+	if (!s)
+		return (NULL);
+	if (start >= (unsigned int)ft_strlen(s))
+		len = 0;
+	if (len > (ft_strlen(s) - start))
+		len = (ft_strlen(s) - start);
+	a = malloc(len + 1);
+	if (!a)
+		return (NULL);
+	while (i < len)
 	{
-		len++;
+		a[i] = s[start + i];
+		i++;
 	}
-	while (len >= 0)
-	{
-		if (str[len] == c)
-			return (&str[len]);
-		len--;
-	}
-	if (c == '\0')
-		return (&str[len]);
-	return (NULL);
+	a[i] = '\0';
+	return (a);
 }

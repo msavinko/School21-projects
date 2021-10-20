@@ -6,7 +6,7 @@
 /*   By: marlean <marlean@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 17:41:36 by marlean           #+#    #+#             */
-/*   Updated: 2021/10/18 18:34:53 by marlean          ###   ########.fr       */
+/*   Updated: 2021/10/19 13:10:52 by marlean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,8 @@ void	*ft_calloc(size_t count, size_t size)
 	size_t	i;
 
 	i = 0;
-	if ((pointer = malloc(size * count)) == NULL)
+	pointer = malloc(size * count);
+	if (!(pointer))
 		return (NULL);
 	while (i < (count * size))
 	{

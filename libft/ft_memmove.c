@@ -6,7 +6,7 @@
 /*   By: marlean <marlean@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/12 13:20:13 by marlean           #+#    #+#             */
-/*   Updated: 2021/10/18 15:48:08 by marlean          ###   ########.fr       */
+/*   Updated: 2021/10/19 12:53:38 by marlean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 void	*ft_memmove(void *dest, const void *source, size_t n)
 {
-
 	unsigned char		*pdest;
 	unsigned const char	*psource;
 

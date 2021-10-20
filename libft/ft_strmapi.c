@@ -1,37 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strrchr.c                                       :+:      :+:    :+:   */
+/*   ft_strmapi.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: marlean <marlean@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/17 18:37:34 by marlean           #+#    #+#             */
-/*   Updated: 2021/10/19 13:00:21 by marlean          ###   ########.fr       */
+/*   Created: 2021/10/20 17:15:20 by marlean           #+#    #+#             */
+/*   Updated: 2021/10/20 18:21:02 by marlean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strrchr(const char *s, int c)
+char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
 {
+	char	*result;
 	int		i;
-	int		len;
-	char	*str;
 
 	i = 0;
-	len = 0;
-	str = (char *)s;
-	while (str[len])
+	if (!s || !f)
+		return (NULL);
+	result = (char *)malloc(ft_strlen(s) + 1);
+	if (!result)
+		return (NULL);
+	while (s[i])
 	{
-		len++;
+		result[i] = f(i, s[i]);
+		i++;
 	}
-	while (len >= 0)
-	{
-		if (str[len] == c)
-			return (&str[len]);
-		len--;
-	}
-	if (c == '\0')
-		return (&str[len]);
-	return (NULL);
+	result[i] = '\0';
+	return (result);
 }

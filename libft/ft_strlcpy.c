@@ -6,7 +6,7 @@
 /*   By: marlean <marlean@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 19:26:35 by marlean           #+#    #+#             */
-/*   Updated: 2021/10/18 16:31:24 by marlean          ###   ########.fr       */
+/*   Updated: 2021/10/19 12:59:04 by marlean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,21 +24,6 @@ size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
 		dst[i] = src[i];
 		i++;
 	}
-	dst[i] = '\0';	
+	dst[i] = '\0';
 	return (ft_strlen(src));
 }
-
-
-// 	if (size != 0) {
-// 		while (--size != 0) {
-// 			if ((*pdst++ = *psrc++) == '\0')
-// 				break;
-// 		}
-// 	}
-// 	if (size == 0) {
-// 		if (dstsize != 0)
-// 			*pdst = '\0';
-// 		while (*psrc++)
-// 			;
-// 	}
-// 	return(psrc - src - 1);	

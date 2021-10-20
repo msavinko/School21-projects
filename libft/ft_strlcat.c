@@ -6,7 +6,7 @@
 /*   By: marlean <marlean@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/17 16:30:24 by marlean           #+#    #+#             */
-/*   Updated: 2021/10/18 17:11:12 by marlean          ###   ########.fr       */
+/*   Updated: 2021/10/19 12:58:32 by marlean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@ size_t	ft_strlcat(char *dst, const char *src, size_t dstsize)
 		return (dstsize + srclen);
 	else if (dstsize - destlen <= srclen)
 	{
-		ft_memcpy(dst + destlen, src, dstsize-1);
-		dst[dstsize-1] = 0;
+		ft_memcpy(dst + destlen, src, dstsize - 1);
+		dst[dstsize - 1] = 0;
 	}
 	else
 		ft_memcpy(dst + destlen, src, srclen + 1);
