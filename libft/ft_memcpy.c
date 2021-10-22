@@ -6,7 +6,7 @@
 /*   By: marlean <marlean@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/12 19:07:13 by marlean           #+#    #+#             */
-/*   Updated: 2021/10/17 19:46:19 by marlean          ###   ########.fr       */
+/*   Updated: 2021/10/21 10:48:07 by marlean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,19 @@
 
 void	*ft_memcpy(void *dest, const void *source, size_t n)
 {
+	char			*result;
+	char			*original;
 	unsigned int	i;
-	char			*pdest;
-	const char		*psrc;
 
-	if (source == NULL && dest == NULL)
+	if (!dest && !source)
 		return (NULL);
 	i = 0;
-	pdest = dest;
-	psrc = source;
+	result = (char *)dest;
+	original = (char *)source;
 	while (i < n)
 	{
-		pdest[i] = psrc[i];
+		result[i] = original[i];
 		i++;
 	}
-	return (dest);
+	return (result);
 }

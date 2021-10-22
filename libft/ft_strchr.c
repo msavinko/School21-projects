@@ -6,7 +6,7 @@
 /*   By: marlean <marlean@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/17 17:20:19 by marlean           #+#    #+#             */
-/*   Updated: 2021/10/17 19:46:33 by marlean          ###   ########.fr       */
+/*   Updated: 2021/10/21 16:54:51 by marlean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,17 +15,17 @@
 char	*ft_strchr(const char *s, int c)
 {
 	int		i;
-	char	*str;
+	char	*res;
 
 	i = 0;
-	str = (char *)s;
-	while (str[i])
+	res = (char *)s;
+	while (res[i])
 	{
-		if (str[i] == c)
-			return (&str[i]);
+		if (res[i] == (char)c)
+			return (&res[i]);
 		i++;
 	}
 	if (c == '\0')
-		return (&str[i]);
+		return (&res[i]);
 	return (NULL);
 }

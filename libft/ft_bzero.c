@@ -6,7 +6,7 @@
 /*   By: marlean <marlean@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 19:40:11 by marlean           #+#    #+#             */
-/*   Updated: 2021/10/17 19:45:43 by marlean          ###   ########.fr       */
+/*   Updated: 2021/10/21 16:49:00 by marlean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,9 @@
 
 void	ft_bzero(void *str, size_t size)
 {
-	unsigned int	i;
-	char			*pstr;
+	char	*result;
 
-	i = 0;
-	pstr = str;
-	while (i < size)
-	{
-		pstr[i] = 0;
-		i++;
-	}
+	result = (char *)str;
+	while (size-- > 0)
+		*result++ = '\0';
 }

@@ -6,7 +6,7 @@
 /*   By: marlean <marlean@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/12 13:20:13 by marlean           #+#    #+#             */
-/*   Updated: 2021/10/19 12:53:38 by marlean          ###   ########.fr       */
+/*   Updated: 2021/10/21 17:03:15 by marlean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,21 +14,27 @@
 
 void	*ft_memmove(void *dest, const void *source, size_t n)
 {
-	unsigned char		*pdest;
-	unsigned const char	*psource;
+	unsigned int	i;
+	char			*result;
+	char			*original;
 
-	pdest = dest;
-	psource = source;
 	if (!dest && !source)
-		return (dest);
+		return (NULL);
+	i = 0;
+	result = (char *)dest;
+	original = (char *)source;
 	if (dest < source)
-		ft_memcpy(dest, source, n);
-	else
-	{	
-		while (n--)
+	{
+		while (i < n)
 		{
-			pdest[n] = psource[n];
+			result[i] = original[i];
+			i++;
 		}
 	}
-	return (dest);
+	else
+	{
+		while (n-- > 0)
+			result[n] = original[n];
+	}
+	return (result);
 }

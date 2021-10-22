@@ -6,7 +6,7 @@
 /*   By: marlean <marlean@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 17:50:32 by marlean           #+#    #+#             */
-/*   Updated: 2021/10/17 19:46:06 by marlean          ###   ########.fr       */
+/*   Updated: 2021/10/22 10:36:26 by marlean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,15 @@
 
 void	*ft_memchr(const void *s, int c, size_t n)
 {
-	unsigned int	i;
-	char			*res;
+	size_t	i;
+	char	*array;
 
 	i = 0;
-	res = (char *)s;
+	array = (char *)s;
 	while (i < n)
 	{
-		if (res[i] == c)
-			return (&res[i]);
+		if (array[i] == (char)c)
+			return (&array[i]);
 		i++;
 	}
 	return (NULL);
