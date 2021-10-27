@@ -6,13 +6,13 @@
 /*   By: marlean <marlean@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 19:41:48 by marlean           #+#    #+#             */
-/*   Updated: 2021/10/19 18:11:23 by marlean          ###   ########.fr       */
+/*   Updated: 2021/10/25 15:59:44 by marlean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_count(int n)
+static int	ft_count(int n)
 {
 	int		count;
 
@@ -27,7 +27,7 @@ int	ft_count(int n)
 	return (count);
 }
 
-void	ft_minmax(int n, int fd)
+static void	ft_minmax(int n, int fd)
 {
 	if (n == -2147483648)
 		ft_putstr_fd("-2147483648", fd);

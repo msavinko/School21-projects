@@ -6,13 +6,13 @@
 /*   By: marlean <marlean@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/20 11:04:14 by marlean           #+#    #+#             */
-/*   Updated: 2021/10/20 12:55:22 by marlean          ###   ########.fr       */
+/*   Updated: 2021/10/25 16:00:23 by marlean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_match(char const s1, char const *set)
+static int	ft_match(char const s1, char const *set)
 {
 	int	i;
 
@@ -26,7 +26,7 @@ int	ft_match(char const s1, char const *set)
 	return (0);
 }
 
-int	ft_start(char const *s1, char const *set)
+static int	ft_start(char const *s1, char const *set)
 {
 	int	i;
 
@@ -41,7 +41,7 @@ int	ft_start(char const *s1, char const *set)
 	return (i);
 }
 
-int	ft_end(char const *s1, char const *set)
+static int	ft_end(char const *s1, char const *set)
 {
 	int	len;
 

@@ -6,7 +6,7 @@
 /*   By: marlean <marlean@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/19 11:37:25 by marlean           #+#    #+#             */
-/*   Updated: 2021/10/22 19:58:07 by marlean          ###   ########.fr       */
+/*   Updated: 2021/10/25 13:58:13 by marlean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 		len = 0;
 	if (len > (ft_strlen(s) - start))
 		len = (ft_strlen(s) - start);
-	a = malloc(len + 1);
+	a = (char *)malloc((len + 1) * sizeof(char));
 	if (!a)
 		return (NULL);
 	while (i < len)

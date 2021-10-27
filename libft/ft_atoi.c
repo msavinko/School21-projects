@@ -6,11 +6,11 @@
 /*   By: marlean <marlean@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 17:09:36 by marlean           #+#    #+#             */
-/*   Updated: 2021/10/22 14:12:22 by marlean          ###   ########.fr       */
+/*   Updated: 2021/10/25 15:58:44 by marlean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	ft_isspace(char c)
+static int	ft_isspace(char c)
 {
 	if ((c == ' ' || c == '\t' || c == '\n' || c == '\v'
 			|| c == '\f' || c == '\r'))
