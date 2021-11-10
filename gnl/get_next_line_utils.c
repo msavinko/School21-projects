@@ -6,7 +6,7 @@
 /*   By: marlean <marlean@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/08 11:48:59 by marlean           #+#    #+#             */
-/*   Updated: 2021/11/10 14:15:22 by marlean          ###   ########.fr       */
+/*   Updated: 2021/11/10 17:07:23 by marlean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,20 +23,6 @@ size_t	ft_strlen(const char *str)
 		i++;
 	return (i);
 }
-
-// char	*ft_strcpy(char *dest, char *src)
-// {
-// 	int	i;
-
-// 	i = 0;
-// 	while (src[i] != '\0')
-// 	{
-// 		dest[i] = src[i];
-// 		i++;
-// 	}
-// 	dest[i] = '\0';
-// 	return (dest);
-// }
 
 char	*ft_strchr(const char *s, int c)
 {
@@ -79,6 +65,27 @@ char	*ft_strdup_beforen(const char *s1)
 	pointer[i] = '\n';
 	return (pointer);
 }
+char	*ft_strdup_before_null(const char *s1)
+{
+	char	*pointer;
+	size_t	i;
+	size_t	size;
+
+	i = 0;
+	if (!s1)
+		return (NULL);
+	size = ft_strlen(s1);
+	pointer = malloc(sizeof(char) * (size + 1));
+	if (!(pointer))
+		return (NULL);
+	while (s1[i] != '\0')
+	{
+		pointer[i] = s1[i];
+		i++;
+	}
+	pointer[i] = '\0';
+	return (pointer);
+}
 char	*ft_strdup_aftern(char *s1)
 {
 	char	*pointer;
@@ -94,25 +101,14 @@ char	*ft_strdup_aftern(char *s1)
 	pointer = malloc(sizeof(char) * (size + 1));
 	if (!(pointer))
 		return (NULL);
-
-	// while (s1[i] != '\n' && s1[i] != '\0')
-	// {
-	// 	i++;
-	// }	
+	while (s1[i] != '\n' && s1[i] != '\0')
+		i++;
+	i++;
 	// if (s1[i] == '\0')
 	// {	
 	// 	free(s1);
 	// 	return (NULL);
 	// }
-
-	while (s1[i] != '\n' && s1[i] != '\0')
-		i++;
-	i++;
-	if (s1[i] == '\0')
-	{	
-		free(s1);
-		return (NULL);
-	}
 	while (s1[i] != '\0')
 	{
 		pointer[j] = s1[i];
@@ -123,7 +119,7 @@ char	*ft_strdup_aftern(char *s1)
 	return (pointer);
 }
 
-char	*ft_strjoin(char const *s1, char const *s2)
+char	*ft_strjoin(const char *s1, const char *s2)
 {
 	char	*join;
 	size_t	i;
