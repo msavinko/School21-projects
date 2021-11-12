@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: marlean <marlean@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/08 11:48:59 by marlean           #+#    #+#             */
-/*   Updated: 2021/11/10 17:07:23 by marlean          ###   ########.fr       */
+/*   Created: 2021/11/12 14:51:29 by marlean           #+#    #+#             */
+/*   Updated: 2021/11/12 22:02:08 by marlean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,9 @@ char	*ft_strchr(const char *s, int c)
 	char	*res;
 
 	i = 0;
-	if (!s || !c)
-		return (NULL);
 	res = (char *)s;
+	if (!s)
+		return (NULL);
 	while (res[i])
 	{
 		if (res[i] == (char)c)
@@ -44,105 +44,99 @@ char	*ft_strchr(const char *s, int c)
 	return (NULL);
 }
 
-char	*ft_strdup_beforen(const char *s1)
+char	*ft_strcut_n(char *s1)
 {
 	char	*pointer;
 	size_t	i;
 	size_t	size;
-
-	i = 0;
-	if (!s1)
-		return (NULL);
-	size = ft_strlen(s1);
-	pointer = malloc(sizeof(char) * (size + 1));
-	if (!(pointer))
-		return (NULL);
-	while (s1[i] != '\n')
-	{
-		pointer[i] = s1[i];
-		i++;
-	}
-	pointer[i] = '\n';
-	return (pointer);
-}
-char	*ft_strdup_before_null(const char *s1)
-{
-	char	*pointer;
-	size_t	i;
-	size_t	size;
-
-	i = 0;
-	if (!s1)
-		return (NULL);
-	size = ft_strlen(s1);
-	pointer = malloc(sizeof(char) * (size + 1));
-	if (!(pointer))
-		return (NULL);
-	while (s1[i] != '\0')
-	{
-		pointer[i] = s1[i];
-		i++;
-	}
-	pointer[i] = '\0';
-	return (pointer);
-}
-char	*ft_strdup_aftern(char *s1)
-{
-	char	*pointer;
-	size_t	i;
 	size_t	j;
-	size_t	size;
 
 	i = 0;
 	j = 0;
-	if (!s1)
+	
+	while (s1[i] != '\n' && s1[i] != '\0')
+		i++;
+
+	if (s1[i] == '\n')
+	{
+		size = ft_strlen(s1);
+		pointer = malloc(sizeof(char) * (size - i));
+		if (!pointer)
+			return (NULL);
+		i++;
+		while (s1[i] != '\0')
+		{
+			pointer[j] = s1[i];
+			i++;
+			j++;
+		}
+		pointer[j] = '\0';
+		free(s1);
+		return (pointer);
+	}
+
+	free(s1);
+	return (NULL);
+}
+
+char	*ft_strdup(char *s1)
+{
+	char	*pointer;
+	size_t	i;
+	size_t	size;
+
+	i = 0;
+	if (s1[i] == '\0')
 		return (NULL);
 	size = ft_strlen(s1);
 	pointer = malloc(sizeof(char) * (size + 1));
 	if (!(pointer))
 		return (NULL);
 	while (s1[i] != '\n' && s1[i] != '\0')
-		i++;
-	i++;
-	// if (s1[i] == '\0')
-	// {	
-	// 	free(s1);
-	// 	return (NULL);
-	// }
-	while (s1[i] != '\0')
 	{
-		pointer[j] = s1[i];
+		pointer[i] = s1[i];
 		i++;
-		j++;
 	}
-	pointer[j] = '\0';
+	if (s1[i] == '\n')
+	{
+		pointer[i] = s1[i];
+		i++;
+		// pointer[i + 1] = '\0';
+		// return (pointer);
+	}
+	pointer[i] = '\0';
 	return (pointer);
+
 }
 
-char	*ft_strjoin(const char *s1, const char *s2)
+char	*ft_strjoin(char *s1, char *s2)
 {
 	char	*join;
 	size_t	i;
 	size_t	j;
+	size_t	len1;
+	size_t	len2;
 
 	i = 0;
 	j = 0;
-	if (!s1 && !s2)
-		return (NULL);
-	join = (char *)malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
+	len1 = ft_strlen(s1);
+	len2 = ft_strlen(s2);
+	join = (char *)malloc(len1 + len2 + 1);
 	if (!join)
 		return (NULL);
-	while (i < ft_strlen(s1))
+	while (i < len1)
 	{
 		join[i] = s1[i];
 		i++;
 	}
-	while (j < ft_strlen(s2))
+	while (j < len2)
 	{
 		join[i] = s2[j];
 		i++;
 		j++;
 	}
 	join[i] = '\0';
+	free(s1);
+	free(s2);
 	return (join);
 }
