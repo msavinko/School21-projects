@@ -1,4 +1,5 @@
 Calling your function get_next_line in a loop
+
 will then allow
 you to read the text
 

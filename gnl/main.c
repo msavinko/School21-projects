@@ -5,20 +5,29 @@
 
 int	main(void)
 {
-	int	fd;
+	int	fd1;
+	int fd2;
 	char 	*line;
 
-	fd = open("text.txt", O_RDONLY);
-	if (!fd)
-		return (0);
-	printf("***********************\n");
-	for (int i = 1; i < 10; i++)
-	{	
-		line = get_next_line(fd);
-		printf("%d MAIN: %s", i, line);
-		free(line);
-	}
-	close(fd);
+	fd1 = open("text.txt", O_RDONLY);
+	fd2 = open("text1.txt", O_RDONLY);
+
+	line  = get_next_line(fd1);
+	printf("%s", line);
+	free(line);
+	line  = get_next_line(fd1);
+	printf("%s", line);
+	free(line);
+	line  = get_next_line(fd2);
+	printf("%s", line);
+	free(line);
+	line  = get_next_line(fd1);
+	printf("%s", line);
+	free(line);
+	close(fd1);
+	close(fd2);
+
+
 	return (0);
 }
 //leaks --atExit -- ./a.out

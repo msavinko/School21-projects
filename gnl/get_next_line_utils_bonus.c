@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line_utils.c                              :+:      :+:    :+:   */
+/*   get_next_line_utils_bonus.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: marlean <marlean@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/12 14:51:29 by marlean           #+#    #+#             */
-/*   Updated: 2021/11/15 16:01:13 by marlean          ###   ########.fr       */
+/*   Created: 2021/11/15 16:09:19 by marlean           #+#    #+#             */
+/*   Updated: 2021/11/15 16:31:19 by marlean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 char	*ft_cut_two_gnl(char *pointer, char*s1, int i)
 {
@@ -95,11 +95,7 @@ char	*ft_join_two_gnl(char *join, char *s1, char *s2)
 		i++;
 	}
 	while (j < len2)
-	{
-		join[i] = s2[j];
-		i++;
-		j++;
-	}
+		join[i++] = s2[j++];
 	join[i] = '\0';
 	return (join);
 }

@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: marlean <marlean@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/12 13:08:14 by marlean           #+#    #+#             */
-/*   Updated: 2021/11/15 16:05:57 by marlean          ###   ########.fr       */
+/*   Created: 2021/11/15 16:09:27 by marlean           #+#    #+#             */
+/*   Updated: 2021/11/15 16:39:37 by marlean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 size_t	ft_strlen_gnl(const char *str)
 {
@@ -48,13 +48,13 @@ char	*get_next_line(int fd)
 {
 	char		*buff;
 	char		*line;
-	static char	*rest;
+	static char	*rest[OPEN_MAX];
 	ssize_t		read_byte;
 
-	if (fd < 0 || BUFFER_SIZE <= 0)
+	if (fd < 0 || fd > OPEN_MAX || BUFFER_SIZE <= 0)
 		return (NULL);
 	read_byte = 1;
-	while (ft_strchr_gnl(rest, '\n') == NULL && read_byte > 0)
+	while (ft_strchr_gnl(rest[fd], '\n') == NULL && read_byte > 0)
 	{
 		buff = malloc(BUFFER_SIZE + 1);
 		if (!buff)
@@ -66,9 +66,9 @@ char	*get_next_line(int fd)
 			return (NULL);
 		}
 		buff[read_byte] = '\0';
-		rest = ft_strjoin_gnl(rest, buff);
+		rest[fd] = ft_strjoin_gnl(rest[fd], buff);
 	}
-	line = ft_strdup_gnl(rest);
-	rest = ft_strcut_gnl(rest);
+	line = ft_strdup_gnl(rest[fd]);
+	rest[fd] = ft_strcut_gnl(rest[fd]);
 	return (line);
 }
