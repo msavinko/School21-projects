@@ -6,7 +6,7 @@
 /*   By: marlean <marlean@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/08 11:16:29 by marlean           #+#    #+#             */
-/*   Updated: 2021/11/15 16:45:12 by marlean          ###   ########.fr       */
+/*   Updated: 2021/11/16 13:19:19 by marlean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,8 @@
 #  define BUFFER_SIZE 42
 # endif
 
-char	*get_next_line(int fd);
-size_t	ft_strlen_gnl(const char *str);
-char	*ft_strchr_gnl(const char *s, int c);
-char	*ft_strcut_gnl(char *s1);
-char	*ft_cut_two_gnl(char *pointer, char*s1, int i);
-char	*ft_strdup_gnl(char *s1);
-char	*ft_strjoin_gnl(char *s1, char *s2);
-char	*ft_join_two_gnl(char *join, char *s1, char *s2);
+char		*get_next_line(int fd);
+size_t		ft_strlen_gnl(const char *str);
+char		*ft_strchr_gnl(const char *s, int c);
 
 #endif
