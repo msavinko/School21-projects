@@ -6,7 +6,7 @@
 /*   By: marlean <marlean@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/15 16:09:27 by marlean           #+#    #+#             */
-/*   Updated: 2021/11/16 12:47:15 by marlean          ###   ########.fr       */
+/*   Updated: 2021/11/16 17:57:59 by marlean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ char	*get_next_line(int fd)
 	static char	*rest[OPEN_MAX];
 	ssize_t		read_byte;
 
-	if (fd < 0 || fd > OPEN_MAX || BUFFER_SIZE <= 0)
+	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, NULL, 0) == -1)
 		return (NULL);
 	read_byte = 1;
 	while (ft_strchr_gnl(rest[fd], '\n') == NULL && read_byte > 0)
@@ -111,11 +111,6 @@ char	*get_next_line(int fd)
 		if (!buff)
 			return (NULL);
 		read_byte = read(fd, buff, BUFFER_SIZE);
-		if (read_byte == -1)
-		{
-			free(buff);
-			return (NULL);
-		}
 		buff[read_byte] = '\0';
 		rest[fd] = ft_strjoin_gnl(rest[fd], buff);
 	}
