@@ -6,7 +6,7 @@
 /*   By: marlean <marlean@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/12 14:51:29 by marlean           #+#    #+#             */
-/*   Updated: 2021/11/16 12:47:20 by marlean          ###   ########.fr       */
+/*   Updated: 2021/11/17 12:14:43 by marlean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,11 @@ size_t	ft_strlen_gnl(const char *str)
 	size_t		i;
 
 	i = 0;
-	if (!str)
-		return (0);
-	while (str[i] != '\0')
-		i++;
+	if (str)
+	{
+		while (str[i] != '\0')
+			i++;
+	}
 	return (i);
 }
 
