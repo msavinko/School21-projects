@@ -6,13 +6,55 @@
 /*   By: marlean <marlean@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/17 13:48:44 by marlean           #+#    #+#             */
-/*   Updated: 2021/11/24 20:35:59 by marlean          ###   ########.fr       */
+/*   Updated: 2021/11/25 17:36:13 by marlean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 #include <stdio.h>
 #include <limits.h>
+
+// static void	ft_recurs_hex(unsigned long int p, int letters)
+// {
+// 	if (p < 16)
+// 	{
+// 		if (p % 16 <= 9)
+// 			ft_putchar(p + 48);
+// 		else
+// 			ft_putchar(p + letters);
+// 	}
+// 	else
+// 	{	
+// 		ft_recurs_hex(p / 16, letters);
+// 		ft_recurs_hex(p % 16, letters);
+// 	}
+// }
+
+// int	ft_hex(unsigned int p, int flag)
+// {
+// 	if (!p)
+// 	{
+// 		ft_putchar('0');
+// 		return (1);
+// 	}
+// 	if (flag == 1)
+// 		ft_recurs_hex(p, 87);
+// 	else if (flag == 2)
+// 		ft_recurs_hex(p, 55);
+// 	return (ft_nbrlen(p, 16));
+// }
+
+// int	ft_point_hex(unsigned long int p)
+// {
+// 	if (!p)
+// 	{
+// 		ft_putstr("0x0");
+// 		return (3);
+// 	}
+// 	ft_putstr("0x");
+// 	ft_recurs_hex(p, 87);
+// 	return (ft_nbrlen(p, 16) + 2);
+// }
 
 // size_t	ft_strlen(const char *str)
 // {
@@ -42,7 +84,7 @@
 // 	return (ft_strlen(s));
 // }
 
-// int	ft_nbrlen(long int nb)
+// int	ft_nbrlen(unsigned long int nb, int dec)
 // {
 // 	int	count;
 
@@ -51,65 +93,11 @@
 // 		return (1);
 // 	while (nb > 0)
 // 	{
-// 		nb /= 10;
+// 		nb /= dec;
 // 		count++;
 // 	}
 // 	return (count);
 // }
-
-// int	ft_hex(unsigned long int p, int flag)
-// {
-// 	char	*hex;
-// 	char	address[30];
-// 	int		i;
-// 	int		len;
-
-// 	i = 0;
-// 	if (!p)
-// 		address[i++] = '0';
-// 	if (flag == 1)
-// 		hex = "0123456789abcdef";
-// 	else if (flag == 2)
-// 		hex = "0123456789ABCDEF";
-// 	while (p)
-// 	{
-// 		address[i] = hex[p % 16];
-// 		p /= 16;
-// 		i++;
-// 	}
-// 	len = i;
-// 	address[i] = '\0';
-// 	while (i--)
-// 		ft_putchar(address[i]);
-// 	return (len);
-// }
-
-// int	ft_point_hex(unsigned long int p)
-// {
-// 	char	*hex;
-// 	char	address[30];
-// 	int		i;
-// 	int		len;
-
-// 	i = 0;
-// 	if (!p)
-// 		address[i++] = '0';
-// 	hex = "0123456789abcdef";
-// 	while (p)
-// 	{
-// 		address[i] = hex[p % 16];
-// 		p /= 16;
-// 		i++;
-// 	}
-// 	len = i;
-// 	address[i] = '\0';
-// 	ft_putstr("0x");
-// 	while (i--)
-// 		ft_putchar(address[i]);
-// 	return (len + 2);
-// }
-
-
 // static void	ft_recurs_putnbr(int nb)
 // {
 // 	if (nb <= 9)
@@ -138,7 +126,7 @@
 // 		count++;
 // 	}
 // 	ft_recurs_putnbr(nb);
-// 	count += ft_nbrlen(nb);
+// 	count += ft_nbrlen(nb, 10);
 // 	return (count);
 // }
 
@@ -156,18 +144,43 @@
 // int	ft_unsigned(unsigned int nb)
 // {
 // 	ft_recurs_u(nb);
-// 	return (ft_nbrlen(nb));
+// 	return (ft_nbrlen(nb, 10));
 // }
 
 int	ft_check(const char **format, va_list ap)
 {
 	int				count;
 	unsigned int	x;
+	int 			num;
+	int				flag_plus;
 
 	x = 0;
 	count = 0;
+	num = 0;
+	flag_plus = 0;
 	if (**format == 'c')
 		count += ft_putchar(va_arg(ap, int));
+	else if (**format == ' ')
+		(*format)++;
+	else if (**format == ' ' || **format == '+')
+	{
+		while (**format == ' ' || **format == '+')
+		{
+			if (**format == '+')
+				flag_plus = 1;
+			(*format)++;
+		}
+		if (**format == 'd' || **format == 'i')
+		{
+			num = va_arg(ap, int);
+			if (flag_plus)
+				if (num >= 0)
+					count += ft_putchar('+');
+			if (num >= 0 && !flag_plus)
+				count += ft_putchar(' ');
+			count += ft_putnbr(num);
+		}
+	}
 	else if (**format == 'd' || **format == 'i')
 		count += ft_putnbr(va_arg(ap, int));
 	else if (**format == 's')
@@ -215,14 +228,29 @@ int	ft_printf(const char *format, ...)
 {
 	int		count;
 	va_list	ap;
+	int		width;
 
 	count = 0;
+	width = 0;
 	va_start(ap, format);
 	while (*format)
 	{
 		if (*format == '%')
 		{
 			format++;
+			if (*format >= '0' && *format <= '9')
+			{
+				while (*format >= '0' && *format <= '9')
+				{
+					width = width * 10 + *format - '0';
+					format++;
+				}
+				//неправильно вычитает длину из строки. не считает символы строки.
+				width--;
+				count += width;
+				while (width--)
+					ft_putchar(' ');
+			}
 			count += ft_check(&format, ap);
 			format++;
 		}
@@ -234,12 +262,15 @@ int	ft_printf(const char *format, ...)
 }
 // int main(void)
 // {
-// 	//long int x = 455;
+// 	// int x = 45;
+// 	// int y = -6;
+// 	// unsigned int u = 9;
+// 	//char	*s = "hello";
 // 	int one = 0;
 // 	int two = 0;
 
-// 	one = ft_printf("M: %#x,\n", 0);
-// 	two = printf("O: %#x,\n", 0);
+// 	one = ft_printf("M: %7s\n", "abc");
+// 	two = printf("O: %7s\n", "abc");
 // 	printf("one: %d\ntwo: %d", one, two);
 // 	return (0);
 // }

@@ -6,7 +6,7 @@
 /*   By: marlean <marlean@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/22 14:55:17 by marlean           #+#    #+#             */
-/*   Updated: 2021/11/24 16:16:59 by marlean          ###   ########.fr       */
+/*   Updated: 2021/11/25 14:17:21 by marlean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	ft_putstr(char *s)
 	return (ft_strlen(s));
 }
 
-int	ft_nbrlen(long int nb)
+int	ft_nbrlen(unsigned long int nb, int dec)
 {
 	int	count;
 
@@ -49,7 +49,7 @@ int	ft_nbrlen(long int nb)
 		return (1);
 	while (nb > 0)
 	{
-		nb /= 10;
+		nb /= dec;
 		count++;
 	}
 	return (count);

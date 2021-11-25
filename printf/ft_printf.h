@@ -6,7 +6,7 @@
 /*   By: marlean <marlean@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/22 15:09:18 by marlean           #+#    #+#             */
-/*   Updated: 2021/11/23 20:08:19 by marlean          ###   ########.fr       */
+/*   Updated: 2021/11/25 14:17:27 by marlean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@ int		ft_putchar(char c);
 int		ft_putstr(char *s);
 int		ft_putnbr(int n);
 int		ft_unsigned(unsigned int nb);
-int		ft_hex(unsigned long int p, int flag);
+int		ft_hex(unsigned int p, int flag);
 int		ft_point_hex(unsigned long int p);
-int		ft_nbrlen(long int nb);
+int		ft_nbrlen(unsigned long int nb, int dec);
 
 #endif

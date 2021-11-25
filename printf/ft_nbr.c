@@ -6,7 +6,7 @@
 /*   By: marlean <marlean@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/23 20:11:17 by marlean           #+#    #+#             */
-/*   Updated: 2021/11/23 20:13:41 by marlean          ###   ########.fr       */
+/*   Updated: 2021/11/25 14:04:30 by marlean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	ft_putnbr(int nb)
 		count++;
 	}
 	ft_recurs_putnbr(nb);
-	count += ft_nbrlen(nb);
+	count += ft_nbrlen(nb, 10);
 	return (count);
 }
 
@@ -58,5 +58,5 @@ static void	ft_recurs_u(unsigned int nb)
 int	ft_unsigned(unsigned int nb)
 {
 	ft_recurs_u(nb);
-	return (ft_nbrlen(nb));
+	return (ft_nbrlen(nb, 10));
 }
