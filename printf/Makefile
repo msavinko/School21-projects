@@ -6,15 +6,15 @@
 #    By: marlean <marlean@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/23 16:17:56 by marlean           #+#    #+#              #
-#    Updated: 2021/11/24 20:03:55 by marlean          ###   ########.fr        #
+#    Updated: 2021/11/26 15:42:36 by marlean          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME	=	libftprintf.a
-SRCS	=	ft_printf.c ft_utils.c ft_hex.c ft_nbr.c
+SRCS	=	ft_printf.c ft_utils_printf.c ft_hex.c ft_nbr.c ft_printf_bonus.c 
 HEADER	=	ft_printf.h
 OBJ		=	$(patsubst %.c,%.o,$(SRCS))
-CC		=	gcc
+CC		=	cc
 CFLAGS	=	-Wall -Wextra -Werror
 RM		= 	rm -f
 
