@@ -1,0 +1,206 @@
+what	link	explanation
+ Task	https://github.com/mharriso/school21-checklists/blob/master/ng_1_born2beroot.pdf	
+root	https://timeweb.com/ru/community/articles/root-v-linux	Пользователь, который имеет права администратора.
+aptitude and apt	https://habr.com/ru/post/74506/	 это универсальный инструмент для поиска / установки / удаления / запросо. aptitude это интерфейс для apt
+		Aptitude более универсальный, чем apt. для apt нужно дополнительно прописывать название команды (apt-mark, apt-cache, apt-get)
+dpkg	https://debian-handbook.info/browse/ru-RU/stable/sect.manipulating-packages-with-dpkg.html	инструмент для установки пакетов Debian
+UFW	https://linuxrussia.com/firewall-ufw.html	Межсетевой экран для обработки и фильтрации сетевого трафика.
+SELinux	https://habr.com/ru/company/kingservers/blog/209644/	также модуль безопасности, но более сложный чем Apparmor
+Apparmor	https://help.ubuntu.ru/wiki/%D1%80%D1%83%D0%BA%D0%BE%D0%B2%D0%BE%D0%B4%D1%81%D1%82%D0%B2%D0%BE_%D0%BF%D0%BE_ubuntu_server/%D0%B1%D0%B5%D0%B7%D0%BE%D0%BF%D0%B0%D1%81%D0%BD%D0%BE%D1%81%D1%82%D1%8C/apparmor	это реализация Модуля безопасности линукс по управлению доступом на основе имен.
+SSH	ssh user@localhost -p 4242	
+	https://freehost.com.ua/faq/wiki/chto-takoe-ssh/	
+	https://hyperhost.ua/info/ru/ssh-zachem-i-dlya-chego	протокол удаленного администрирования серверов и используется для передачи большого объема данных.
+	https://hostgid.net/baza-znanii/hosting/chto-takoe-ssh.html	SSH шифрует весь трафик за счет специального алгоритма шифрования.
+cron	https://tproger.ru/translations/guide-to-cron-jobs/	запуск скриптов и команд. команды скрипта (wall, grep, awk). Инструмент для планирования выполнения команд на определенное время.
+LVM	https://habr.com/ru/post/67283/	менеджер логических томов
+RAM		RAM (Random Access Memory, с англ. — «Запоминающее устройство с произвольным доступом») — оперативная память
+netstat	https://ru.wikipedia.org/wiki/Netstat	утилита командной строки, выводящая на дисплей состояние TCP-соединений, таблицы маршрутизации, число сетевых интерфейсов и сетевую статистику по протоколам.
+хэш сумма машины shasum	https://ru.wikipedia.org/wiki/%D0%A5%D0%B5%D1%88-%D1%81%D1%83%D0%BC%D0%BC%D0%B0	результат обработки неких данных хеш-функцией.
+lighttpd	https://interface31.ru/tech_it/2011/12/nastraivaem-prostoy-veb-server-na-baze-lighttpd.html	веб-сервер
+WordPress	https://ru.wordpress.org/	свободное программное обеспечение, которое поможет вам создать красивый сайт, блог или веб-приложение
+журналируемая файловая система ext4	https://habr.com/ru/post/58183/	Файловая система линукс
+wal		трансляция по всем открытым терминалам. wall - это утилита командной строки, которая отображает сообщение на терминалах всех вошедших в систему пользователей.
+sudo install	https://github.com/hanshazairi/42-born2beroot	
+TTY	https://zalinux.ru/?p=4490	предназначена для использования одного терминала несколькими процессами
+MariaDB		ответвление от системы управления забазми данных mysql.
+Nginx		веб-сервер и почтовый прокси-сервер, работающий на Unix-подобных операционных системах.
+apache		свободный веб-сервер. Apache является кроссплатформенным ПО
+Логирование sudo	https://ru.opensuse.org/SDB:%D0%9B%D0%BE%D0%B3%D0%B8_Sudo	это сохранение всех команд от имени суперпользователя в папку лог
+VDI	vdi не поддерживает зашифрованный отдел	
+VHD	vhd поддерживает шифрование дисков	
+разметка		
+	root	суперпользователь
+	swap	раздел подкачки. Линукс позволяет сохранить всю оперативную память в раздел подкачки в случае гибернации системы. Можем сохранять состояние системы и загружать его заново
+	https://www.linuxadictos.com/ru/hibernacion-linux.html	Гибернация - это процесс, в котором создается живой образ текущей системы
+	home	раздел, где сохранены пользователи.
+	var	для изменяемых программ. программы, которые не модифицируются постоянно. например базы данных.
+	srv	сервисные утилиты
+	tmp	временные файлы, которые очищаются после каждой перезагрузки системы.
+	var-log	в этой папке храним все логирования (действия пользователя, подключение к серверу)
+	boot	дефолтные загрузщики линукса, устанавливается по умолчанию в бут. в раздельный отдел диска. 
+разбивка диска		
+root	10.7	
+swap	2.5	
+		
+home	5.4	
+var	3.2	
+srv	3.2	
+tmp	3.2	
+var-log	4.3	
+boot	0.525	
+После установки		
+		
+Commands		
+		
+1	lsblk	вызывает раздел томов
+		
+2	su -	логинимся под root (если просто su, то это super user в своей папке, если с дефисом, подгружаемся в папке root  и все переменные окружения тоже грузятся из root)
+		sudo позволяет устанавливать права суперпользователя. устанавливать пакеты, редактировать конфигурации.
+		ввести пароль суперпользователя
+		имя пользователя
+		пароль пользователя
+		пароль суперпользователя
+		пароль рута
+		
+3	apt install sudo	Установка программы sudo. Утилита позволяет пользователю запрашивать права суперпользователя
+		
+-----	sudo apt-get install vim	установить vim
+		
+4	vim etc/ssh/sshd_config	настраиваем config для подключеня по ssh
+		заменить #Port 22 на Port 4242
+		расскоментировать и поставить no.  PermitRootLogin no
+		чтобы под портом нельзя было логиниться нужно посмотреть разрешение чтобы стояло NO
+		
+5	usermode -aG <user>	Для пользователя делаем root права, чтобы при следующем входе по ssh, были права суперпользователя
+	cd /etc/	
+	vim sudoers	
+	vim /etc/sudoers	из любой папки открыть файл. Абсолютный путь относительно корня
+		
+6	<user> ALL...	добавляем имя пользователя. даем права суперпользователю
+		
+7	cp /etc/sudoers /etc/sudoers.backup	сохранить файл sudoers бекапом, на всякий случай (если что то поломается, то мы не запустим систему)
+		
+8	shut down now	выключит комп для сохранения настроек
+		
+9	в VB меню	Сделать snapshot, снимок или слепок текущего состояния системы
+		
+10	в VB настройки	добавить порт 4242 в NAT
+		этот порт отобразится в ОС и мы сможем зайти под ним.
+		
+11	переброс портов	Загружаем сервер в VB. вводим пароль криптографический для шифрования диска и все сворачиваем.
+		
+12	ssh <user>@localhost -p 4242	загружаем терминал на маке (у локального хоста адрес 127.0.0.1)
+	login/passw	таким образом мы попадаем на наш сервер. ввести логин и пароль
+	save configurations .ssh	сохранить конфигурацию в ssh. сохраняет коннект и второй раз коннектится как надо под юзером
+	подключить ssh	https://losst.ru/kak-podklyuchitsya-po-ssh
+	установка ssh	https://losst.ru/ustanovka-ssh-ubuntu-16-04
+		
+13	Работаем из терминала	все действия можно копировать и вставлять. т.к. есть общий буфер с системой.
+		
+14	su -	логинимся под root
+		
+15	groups root/<user>	проверяем группу пользователей
+		у юзера должно быть sudo или root <user>. пользователь в группу супер пользователей
+16	при проверке	
+	vim /etc/hostname	изменить название хоста и сделать reboot
+		
+17	vim /etc/sudoers	Настройка входа Sudo.
+		Defaults строки. изменить badpass_message="wrong pass" при неверном вводе пароля
+		Defaults passwd_tries=3 количество попыток входа
+		
+18	apt install ufw	настройка fierwall. UFW простая утилита с командной строкой
+		https://selectel.ru/blog/tutorials/how-to-configure-firewall-with-ufw-on-ubuntu-20/
+	ufw status	проверить статус
+	ufw enable	запустить
+	ufw status	проверить статус
+	sudo ufw default deny incoming	настроить правила. дефолтные настройки. запрет на входящие
+	sudo ufw default allow outgoing	настройка. разрешение на исходящие
+	ufw allow 4242	разрешить наш порт 4242.
+		
+19	apt install libpam-pwquality	политика паролей
+	cp /etc/pam.d/common-password /etc/pam.d/common-password.backup	сделать бекап
+	vim /etc/pam.d/common-password	правим config
+		password requisite pam_pwquality.so retry=3 maxrepeat=3 minlen=10 dcredit=-1 ucredit=-1 reject_username difok=7
+		password requisite pam_pwquality.so retry=3 maxrepeat=3 minlen=10 dcredit=-1 ucredit=-1 reject_username enforce_for_root
+	passwd user	изменить пароли пользователей в соотв с политикой паролей
+	passwd root	изменить пароли пользователей в соотв с политикой паролей
+	vim /etc/login.defs	изменить три переменные
+		PASS_MAX_DAYS 30
+		PASS_MIN_DAYS 2
+		PASS_WARN_AGE 7
+		
+20		сделать снапшот
+	ребут	Залогиниться заново на всякий случай проверить что все работает
+	логиниться через ssh	
+		
+21	скрипт	
+	apt install net-tools	установка утилиты netstat
+		
+22		exit - выйти из рута и зайти под предыдущим пользователем
+	su user	вход под ником нужного пользователя
+	cd ~/	в домашнюю директорию
+	touch monitoring.sh	создать файл
+	chmod +x ./monitoring.sh	дает права на исполнение файла
+		можно запускать по команде ./monitoring.sh 
+	vim monitoring	нагуглить команды все
+		
+23	crontab -e	настройка cron. запуск скриптов и команд по расписанию
+	*/10 * * * * sh /home/<user>/monitoring.sh	нужно задать период запуска. под обычным пользователем можно
+	каждые 10 мин. день. месяц. год	https://losst.ru/nastrojka-cron
+		
+24	TTY	система, которая позволяет разбить shell на несколько shell.
+		Это как разные рабочие столы в системме, только разные экземпляры системы, запущенные на сервере.
+	vim /etc/systemd/logind.conf	Прописать кол-во возможных логинов.
+	NAutoVTs=8	со скольких кнопок F можно логиниться
+	ReserveVT=8	удаленно логиниться
+		
+25	Логирование Sudo	нужно вести логи всех действий, по политике безопасности
+	mkdir /var/log/sudo	создать каталог логирования
+	touch /var/log/sudo/sudo.log	
+	vim /etc/sudoers	правим конфиг судо
+		добавляем Defaults        logfile=/var/log/sudo/sudo.log
+		совершаем действия под пользователем через  sudo
+	vim /var/log/sudo/sudo.log	проверяем
+		
+	reboot	перезагрузка чтобы все сохранилось
+		
+	BONUS	
+1,1		развернуть вордпресс, развернуть сервер, базу данных и сделать сайт
+	su -	логинимся под суперюзером.рутом
+	apt install mariadb-server	устанавливаем MariaDB
+	mysql_secure_installation	настройка защищенной установки
+		sql - тип языка программирования для баз данных, mysql это самая распространенная база данных, поддерживающая этот тип.
+		в установке везде нажимать ДА, кроме установки пароля рута и в первом запросе нажать Ентер
+	mariadb	входим в оболочку базы данных марияДБ
+	>CREATE DATABASE wordpress;	создать базу
+	>CREATE USER '<user>'@'localhost' IDENTIFIED BY '<password>';	создать пользователей для дб
+	>GRANT ALL ON wordpress.* TO '<user>'@'localhost';	предоставить пользователю полные привилегии для дб
+	>FLUSH PRIVILEGES;	
+	>exit	
+	mariadb -u <user> -p	проверка юзера
+	>SHOW DATABASES;	проверка бд
+		
+1,2	apt install lighttpd	Установка сервера
+	vim /etc/lighttpd/lighttpd.conf	смотрим порты
+	ufw allow 80	сервер по умолчанию работает на этих портах, поэтому чтобы система увидела сайт, который крутится на сервере внути виртуалБокса, нужно разрешить порты в ufw
+	ufw allow 8080	
+		сделать снапшот
+		в настройках виртуал бокс в нетворк в доп параметрах добавить порты.
+		из браузера откроется локальный сайт
+		заходим в браузере по ip 127.0.0.1
+		
+1.3	su -	
+	wget https://ru.wordpress.org/latest-ru_RU.tar.gz	скачать wordpress
+	cp latest-ru_RU.tar.gz /var/www/html	копируем в папку сервера
+	tar -wvzf latest-ru_RU.tar.gz	распаковка
+		
+		установка WP
+	http://127.0.0.1/wordpress	настраиваем внутри
+		
+2		разбивка диска
+		
+3	VSF	дополнительный сервис
+		
+4	php	установка и настройка php.
+	linux and command	искать для скрипта
+		

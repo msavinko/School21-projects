@@ -1,0 +1,279 @@
+hostname	marlean42
+root passw	Useruser42
+install and configure sudo	
+add user marlean	
+marlean passw	Usermari42
+key phrase	superdupersecurity
+add marlean to user42 and sudo groups	
+	
+passw	expire every 30 days
+	min days before modif 2
+	warning 7 days before
+	at least 10 char, 1 Upp, 1 num, 3 consecutive not allow
+	name excluded
+	does not apply to root: 7 diff char from prev
+	root has to comply with the policy
+change all passwd and root passw	
+	
+sudo	3 attempts to auth sudo
+	change error message
+	each sudo action to be archived. inputs and outputs. log file in /var/log/sudo/
+	TTY has to be enabled for security reasons.
+	Sudo path to be restricted
+	
+script	
+AFTER DEBIAN INSTALLATION	
+	
+please unlock disk sda5_crypt	superdupersecurity
+login	marlean
+passw	Usermari42
+	
+lsblk	для проверки правильной разбивки
+	
+su -	логинимся под рутом
+	пароль рута
+	Useruser42
+	
+apt-get install sudo	установка sudo
+	
+sudo apt-get install vim	установить vim
+	
+addgroup user42	создать группу user42
+adduser marlean sudo	добавить пользователя marlean в sudo
+adduser marlean user42	добавить пользователя marlean в user42
+getent group user42	проверка есть ли пользователь в группе
+groups marlean	проверить в каких группах состоит marlean
+	
+vim /etc/sudoers	добавить рут права для marlean
+marlean ALL...	
+	
+reboot	перезапуск для сохранения изменений
+sudo -v	проверка работы sudo. ввести пароль marlean
+	
+sudo -l	проверка есть ли у marlean права рута
+	теперь все команды можно выполнять от имени марлен с добавлением sudo
+su - marlean	изменить пользователя на марлен
+su -	
+vim /etc/hosts	проверяем имя хоста
+lsblk	смотреть все разделы
+less /etc/group	смотреть все группы
+who	посмотреть активные сессии
+ps -u marlean	посмотреть все процессы пользователя
+top -U marlean	тоже процессы, но больше инфо
+dpdg -l | grep mariadb	информация по установленым пакетам
+	
+	настройка входа под sudo
+vim /etc/sudoers	Настройки SUDO
+	Defaults badpass_message="..."
+	Defaults passwd_tries=3
+	Логирование sudo
+mkdir /var/log/sudo	создаем каталог логирования, куда будут сохраняться все input and output sudo logs
+vim /etc/sudoers	настраиваем sudo
+	сохранить все в файл sudo.log, inputs/output, archive
+	Defaults logfile="/var/log/sudo/sudo.log"
+	Defaults log_input,log_output
+	Defaults iolog_dir="/var/log/sudo"
+	включить tty
+	Defaults requiretty
+	
+	TTY
+vim /etc/systemd/logind.conf	раскомментировать первые 2 строки. NAuto & Reserve =10
+	
+	сменить пользователя su - marlean
+	зайти в файл sudo vim /etc/sudoers
+vim /var/log/sudo/sudo.log	посмотреть, сохранились ли действия
+	
+	SSH
+sudo apt-get update	обновить пакеты
+sudo apt-get install openssh-server	установить пакеты
+	уже установлены
+	
+vim /etc/ssh/sshd_config	правим config
+	меняем Port 4242  и  PermitRootLogin no
+	
+sudo systemctl status ssh	убедиться что установилось и что активен
+	если не поставился, то sudo systemctl enable ssh
+sudo service ssh restart	перезапустить sudo
+	Настройки VM. 
+	Network. Advanced. Port Forwarding. ADD 4242.4242
+	
+ssh marlean@localhost -p 4242	проброс портов в терминале на маке
+	passw
+	
+	добавляем новых пользователей
+sudo adduser new_user	создать пользователя
+sudo passwd new_user	сменить пароль пользователя
+getent passwd new_user	убедиться, что пользователь создан
+sudo chage -l new_user	проверить, что пароль соответствует правилам
+sudo userdel --remove new_user	удалить пользователя
+sudo killall -u username && sudo deluser --remove-home -f username	убить все процессы и удалить пользователя
+sed 's/:.*//' /etc/passwd	посмотреть всех пользователей
+cut -d: -f1 /etc/passwd	тоже посмотреть список пользователей
+	
+sudo groupadd new_group	создать группу
+sudo adduser new_user new_group	добавить пользователя в группу
+getent group new_group	проверить есть ли пользователь в группе
+groups new_user	посмотреть в какхи группах пользователь
+	
+groupdel new_group	удалить группу
+getent group | grep new_group	проверить
+	new1 Useruser11
+sudo hostnamectl set-hostname name_of_your_host	изменить имя хоста
+	ИЛИ
+sudo vim /etc/hostname	проверяем и/или меняем имя хоста
+	изменить имя и перезагрузить
+	изменить имя обратно
+	
+	если сделать какую то команду с sudo и ввести неправильный пароль пользвателя, то покажется введенная фраза неправильного пароля
+sudo -l	проверить, есть ли у пользователя привилегии
+	ввести неправильный пароль
+	you shall not pass
+	
+	ПОЛИТИКА ПАРОЛЕЙ
+	
+sudo apt-get install libpam-pwquality	установка библиотеки паролей
+sudo vim /etc/pam.d/common-password	октрыть файл для изменений
+retry=3	
+minlen=10	мин 10 букв
+ucredit=-1	как минимум 1 заглавная
+dcredit=-1	как минимум 1 цифра
+maxrepeat=3	максимум 3 повторных символа подряд
+reject_userame	нельзя использовать ник в пароле
+diftok=7	хотя бы 7 символов должно быть изменено после ввода нового пароля
+enforce_for_root	те же правила для рута использовать (кроме дифток)
+	
+sudo vim /etc/login.defs	открыть файл
+PASS_MAX_DAYS 30	пароль истекает каждые 30 дней
+PASS_MIN_DAYS 2	мин дней между сменой паролей
+PASS_WARN_AGE 7	предупреждение за 7 дней до смены паролей
+	
+sudo reboot	
+	
+	UFW
+	
+sudo apt install ufw	установка
+sudo ufw enable	включить
+sudo ufw allow ssh	настройка ssh
+sudo ufw allow 4242	настройка 4242
+sudo ufw status numbered	проверить что работает
+sudo ufw delete NUM	удалить порт (на защите)
+sudo systemctl status	активный порт проверить
+sudo ufw default deny incoming	стандартные настройки
+sudo ufw default allow outgoing	стандартные настройки
+	
+	СКРИПТ
+	
+sudo apt-get install net-tools	установка net-tools
+~/	перейти в главную директорию
+touch monitoring.sh	создать файл
+chmod +x ./monitoring.sh	добавить права для запуска
+vim monitoring.sh	запуск в вим
+	
+uname -a	пооказать архитектуру
+nproc --all	показать виртуальные процессоры
+/proc/cpuinfo	физические процессоры
+free	показывает свободную память
+df	показывает что на диске
+top -bn1	загруженность диска
+who	показывает кто загружался
+grep слово файл	выводит все, что после слова из Файла
+-с слово	флаг считает строки в которых есть слово
+awk	смотрит информацию. утилита для простых вычислений и манипуляций
+NR == 2	вторая строка
+$3	трейтий столбик
+df	отображает свободное место на диске
+-h	human readable format
+NF	число полей в текущей строке
+top	отображает обновленную информацию о процессах
+who	кто логинился
+-b	время последнего логина
+TCP	протокол передачи данных
+netstat	show network status
+-an	-all -address as number
+08:00:27:86:de:40	ip сетевого подключения. смотреть через ip link
+sudo	$(journalctl _COMM=sudo -q | grep "COMMAND" | wc -l ) cmd
+	Cron
+crontab -e	запускает скрипты. выполняет задачи в указанное время
+	исправить мин.час.день.нед.мес
+https://losst.ru/kak-dobavit-komandu-v-cron	
+* * * * * address && sleep 30 && address	как поставить каждые 30 секунд
+crontab -r	стирает расписание 
+crontab -l	смотрит статус
+sudo /etc/init.d/cron stop	остановить скрипт
+sudo /etc/init.d/cron start	запустить скрипт
+status, restart, reload, force-reload	доп команды
+sudo service cron reload	снова запустить
+	
+	BONUS 1
+lsblk	разбивка диска
+	BONUS 2
+	
+lighttpd	сервер
+MariaDB	базы данных
+PHP	язык программирования
+WordPress	"WordPress, самая мощная и популярная система управления контентом (CMS), является правильным 
+инструментом для разработки и создания мощных и динамических веб-сайтов на основе PHP, гибка и 
+может работать на различных или HTTP-серверах."
+	
+sudo apt install lighttpd	установка http-сервера Lighttpd
+sudo ufw allow 80	разрешаем порт 80 для работы сервера
+	проброс портов
+127.0.0.1	заходим в барузер
+	dpkg -l | grep lighttpd
+sudo apt install mariadb-server	установка MariaDB
+sudo mysql_secure_installation	настройка
+	"Enter current password for root (enter for none): #Just press Enter (do not confuse database root with system root)
+Set root password? [Y/n] n
+Remove anonymous users? [Y/n] Y
+Disallow root login remotely? [Y/n] Y
+Remove test database and access to it? [Y/n] Y
+Reload privilege tables now? [Y/n] Y"
+sudo mariadb	войти в бд
+CREATE DATABASE marleanwordpress	создать бд
+CREATE USER 'marleanwp'@'localhost' IDENTIFIED BY 'UserPassw42';	создать нового пользователя бд
+GRANT ALL ON wordpress.* TO 'marleanwp'@'localhost';	дать полные права для пользователя
+FLUSH PRIVILEGES;	обновить привилегии
+exit	
+	
+SHOW DATABASES;	проверить бд
+exit	
+	
+sudo apt install php php-cgi php-mysql	установка php
+sudo lighty-enable-mod fastcgi	запускаем сервер в режиме fastcgi
+sudo lighty-enable-mod fastcgi-php	подключаем к верверу php
+sudo service lighttpd force-reload	перезагружаем сервис
+	
+	установка wordpress
+sudo apt install wget	установить wget
+sudo wget http://wordpress.org/latest.tar.gz -P /var/www/html	скачать вордпресс в папку /var/www/html
+sudo tar -xzvf /var/www/html/latest.tar.gz	распаковка
+sudo rm /var/www/html/latest.tar.gz	удалить tarball
+sudo cp -r /var/www/html/wordpress/* /var/www/html	скопировать из одной папки в var/www/html
+sudo rm -rf /var/www/html/wordpress	удалить папку вордпреесс
+sudo cp /var/www/html/wp-config-sample.php /var/www/html/wp-config.php	создать копию конфигураций
+sudo vim /var/www/html/wp-config.php	открыть через вим
+42proj	имя бд
+42dbuser	имя пользователя
+Userdatabase111	пароль пользователя
+	
+GRANT ALL ON 42proj.* TO '42dbuser'@'localhost' IDENTIFIED BY 'Userdatabase111' WITH GRANT OPTION;	
+	
+site	projectB2BR
+user	marlean
+passw	YgM@u0tcGvJTT7kW&O
+email	marlean@student.21-school.ru
+	
+	BONUS 3
+	
+sudo service --status-all	посмотреть какие сервисы есть
+	
+sudo apt-get install mailutils	
+sudo apt install sendmail -y	
+echo "Это тестовое письмо" | mail -s "Проверка отправки почты" msavinko@gmail.com	
+-s — Subject:	
+-c — Cc:	
+-b — BCc:	
+-r — From:	
+https://winitpro.ru/index.php/2021/04/21/otpravka-email-iz-konsoli-linux/	
+-a attachment	
+	
