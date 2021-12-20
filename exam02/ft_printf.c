@@ -17,8 +17,9 @@ int	ft_strlen(char *str)
 	return (i);
 }
 
-int	ft_putstr(char *str, int wide)
+int	ft_putstr(char *str, int wide, int precision)
 {
+	int i = 0;
 	if (!str)
 		return (0);
 	int count = ft_strlen(str);
@@ -29,8 +30,8 @@ int	ft_putstr(char *str, int wide)
 		while (wide--)
 			ft_putchar(' ');
 	}
-	while (*str)
-		write(1, str++, 1);
+	while (i < precision)
+		write(1, &str[i++], 1);
 	return (count);
 }
 
@@ -56,9 +57,25 @@ void	ft_recurs_nbr(int num)
 	}
 }
 
-int ft_putnbr(int num)
+int ft_putnbr(int num, int wide, int precis)
 {
 	int f_minusd = 0;
+	int count = ft_numlen(num, 10);
+
+	if (wide > count + precis)
+	{
+		wide = wide - precis - count;
+		precis = precis - count;
+		count = count + wide + precis;	
+	}
+	else if (wide <= count + precis)
+	{
+		wide = 0;
+		precis = precis - count;
+		count = count + precis;
+	}
+	while (wide-- > 0)
+		ft_putchar(' ');
 	if (num < 0)
 	{
 		if (num == -2147483648)
@@ -70,13 +87,18 @@ int ft_putnbr(int num)
 		f_minusd = 1;
 		ft_recurs_nbr(num * (-1));
 	}
-	else
-		ft_recurs_nbr(num);
+	//////////
+	//else
+	ft_recurs_nbr(num);
+	while (precis-- > 0)
+		ft_putchar('0');
+
+
 	if (f_minusd)
-		return(1 + ft_numlen(num, 10));
-	return (ft_numlen(num, 10));
+		return(1 + count);
+	return (count);
 }
-int ft_puthex(int hex)
+void ft_rechex(int hex)
 {
 	if (hex < 16)
 	{
@@ -87,38 +109,59 @@ int ft_puthex(int hex)
 	}
 	else
 	{
-		ft_puthex(hex / 16);
-		ft_puthex(hex % 16);
+		ft_rechex(hex / 16);
+		ft_rechex(hex % 16);
 	}
-	return (ft_numlen(hex, 16));
+}
+int ft_puthex(int hex, int wide)
+{
+	int count = ft_numlen(hex, 16);
+	if (wide > count)
+	{
+		wide = wide - count;
+		count += wide;
+		while (wide--)
+			ft_putchar(' ');
+	}
+	ft_rechex(hex);
+	return (count);
 }
 
 int ft_printf(const char *format, ...)
 {
 	va_list ap;
 	int count = 0;
-	int wide = 0;
+	
 
 	va_start(ap, format);
 	while (*format)
 	{
+		int wide = 0;
+		int precis = 0;
 		if (*format == '%')
 		{
 			format++;
-			if (*format >= '0' && *format <= '9')
-			{	
+			while (*format >= '0' && *format <= '9')
+			{
+				wide = (wide * 10) + (*format) - '0';	
+				format++;
+			}
+			if (*format == '.')
+			{
+				precis = 0;
+				format++;
 				while (*format >= '0' && *format <= '9')
 				{
-					wide = (wide * 10) + (*format) - '0';	
+					precis = (precis * 10) + (*format) - '0';	
 					format++;
 				}
 			}
 			if (*format == 's')
-				count += ft_putstr(va_arg(ap, char *), wide);
-			if (*format == 'd')
-				count += ft_putnbr(va_arg(ap, int));
-			if (*format == 'x')
-				count += ft_puthex(va_arg(ap, unsigned int));
+				count += ft_putstr(va_arg(ap, char *), wide, precis);
+			else if (*format == 'd')
+				count += ft_putnbr(va_arg(ap, int), wide, precis);
+			else if (*format == 'x')
+				count += ft_puthex(va_arg(ap, unsigned int), wide);
 			format++;
 		}
 		else
@@ -128,22 +171,4 @@ int ft_printf(const char *format, ...)
 	
 	va_end(ap);
 	return (count);
-}
-
-#include <stdio.h>
-int main(void)
-{
-	int one, two;
-	one = ft_printf("string: --|%11s|--\n", "welcome");
-	two = printf("string: --|%11s|--\n", "welcome");
-	one = ft_printf("my funct: %d\n", -23);
-	two = printf("original: %d\n", -23);
-	// ft_printf("%10.2s\n", "toto");
-	// printf("%10.2s\n", "toto");
-	// ft_printf("Magic %s is %5d\n", "number", 42);
-	// printf("Magic %s is %5d\n", "number", 42);
-	// int one = ft_printf("Hexadecimal for %d is %x\n", 42, 42);
-	two = printf("Hexadecimal for %d is %x\n", 42, 42);
-	printf("\nmy funct: %d\noriginal: %d", one, two);
-	return (0);
 }
