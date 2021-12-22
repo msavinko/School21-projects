@@ -1,174 +1,142 @@
-#include <stdarg.h>
 #include <unistd.h>
-#include <stdio.h>
+#include <stdlib.h>
+#include <stdarg.h>
 
-void ft_putchar(char c)
+int g_result, g_wide, g_prec;
+
+static void ft_putchar(char c)
 {
 	write(1, &c, 1);
+	g_result++;
 }
-
-int	ft_strlen(char *str)
+static void ft_putstr(char *str, int length)
 {
-	if (!str)
-		return (0);
 	int i = 0;
-	while (str[i])
+	while (i < length)
+		ft_putchar(str[i++]);
+}
+static int ft_strlen(char *str)
+{
+	int i = 0;
+	while (str[i] != '\0')
 		i++;
 	return (i);
 }
-
-int	ft_putstr(char *str, int wide, int precision)
+static char *ft_itoa(unsigned long num, int base)
 {
-	int i = 0;
+	char *str = NULL;
+	unsigned long temp = num;
+	int len = 0;
+	if (num == 0)
+		len++;
+	while (temp > 0)
+	{
+		temp /= base;
+		len++;
+	}
+	str = malloc(len +1);
 	if (!str)
-		return (0);
-	int count = ft_strlen(str);
-	if (wide > count)
+		return (NULL);
+	str[len] = '\0';
+	while (len > 0)
 	{
-		wide = wide - count;
-		count += wide;
-		while (wide--)
-			ft_putchar(' ');
+		if (num % base >= 10)
+			str[len - 1] = (num % base) + 'a' - 10;
+		else
+			str[len - 1] = (num % base) + '0';
+		num /= base;
+		len--;
 	}
-	while (i < precision)
-		write(1, &str[i++], 1);
-	return (count);
+	return (str);
 }
-
-int	ft_numlen(int num, int del)
+static void ft_print_s(char *str)
 {
-	int count = 0;
-	while (num)
-	{
-		count++;
-		num /= del;
-	}
-	return (count);
-}
-
-void	ft_recurs_nbr(int num)
-{
-	if (num < 10)
-		ft_putchar(num + '0');
-	else
-	{
-		ft_recurs_nbr(num / 10);
-		ft_putchar((num % 10) + '0');
-	}
-}
-
-int ft_putnbr(int num, int wide, int precis)
-{
-	int f_minusd = 0;
-	int count = ft_numlen(num, 10);
-
-	if (wide > count + precis)
-	{
-		wide = wide - precis - count;
-		precis = precis - count;
-		count = count + wide + precis;	
-	}
-	else if (wide <= count + precis)
-	{
-		wide = 0;
-		precis = precis - count;
-		count = count + precis;
-	}
-	while (wide-- > 0)
+	if (!str)
+		str = "(null)";
+	int len = ft_strlen(str);
+	if (g_prec < len && g_prec != -1)
+		len = g_prec;
+	while (g_wide-- > len)
 		ft_putchar(' ');
+	ft_putstr(str, len);
+}
+static void ft_print_d(long int num)
+{
+	int minus = 0;
 	if (num < 0)
 	{
-		if (num == -2147483648)
-		{	
-			write (1, "-2147483648", 11);
-			return (11);
-		}
-		write(1, "-", 1);
-		f_minusd = 1;
-		ft_recurs_nbr(num * (-1));
+		num *= -1;
+		minus = 1;
+		if (g_wide > 0)
+			g_wide--;
 	}
-	//////////
-	//else
-	ft_recurs_nbr(num);
-	while (precis-- > 0)
+	char *str = ft_itoa(num, 10);
+	int len = ft_strlen(str);
+	if ((g_prec > len && g_prec != -1) || (g_prec == 0 && num == 0))
+		len = g_prec;
+	while (g_wide-- > len)
+		ft_putchar(' ');
+	if (minus)
+		ft_putchar('-');
+	while (len-- > ft_strlen(str))
 		ft_putchar('0');
-
-
-	if (f_minusd)
-		return(1 + count);
-	return (count);
+	if (!(g_prec == 0 && num == 0))
+		ft_putstr(str, ft_strlen(str));
+	free(str);
 }
-void ft_rechex(int hex)
+static void ft_print_x(unsigned long int num)
 {
-	if (hex < 16)
-	{
-		if ((hex % 16) <= 9)
-			ft_putchar(hex + '0');
-		else
-			ft_putchar(hex + ('a' - 10));
-	}
-	else
-	{
-		ft_rechex(hex / 16);
-		ft_rechex(hex % 16);
-	}
+	char *str = ft_itoa(num, 16);
+	int len = ft_strlen(str);
+	if ((g_prec > len && g_prec != -1) || (g_prec == 0 && num == 0))
+		len = g_prec;
+	while (g_wide-- > len)
+		ft_putchar(' ');
+	while (len-- > ft_strlen(str))
+		ft_putchar('0');
+	if (!(g_prec == 0 && num == 0))
+		ft_putstr(str, ft_strlen(str));
+	free(str);
 }
-int ft_puthex(int hex, int wide)
-{
-	int count = ft_numlen(hex, 16);
-	if (wide > count)
-	{
-		wide = wide - count;
-		count += wide;
-		while (wide--)
-			ft_putchar(' ');
-	}
-	ft_rechex(hex);
-	return (count);
-}
-
-int ft_printf(const char *format, ...)
+int ft_printf(const char *format,... )
 {
 	va_list ap;
-	int count = 0;
-	
-
+	g_result = 0;
 	va_start(ap, format);
-	while (*format)
+	
+	while(*format)
 	{
-		int wide = 0;
-		int precis = 0;
+		g_wide = 0;
+		g_prec = -1;
 		if (*format == '%')
 		{
 			format++;
 			while (*format >= '0' && *format <= '9')
 			{
-				wide = (wide * 10) + (*format) - '0';	
+				g_wide = (g_wide * 10) + (*format) - '0';
 				format++;
 			}
 			if (*format == '.')
 			{
-				precis = 0;
+				g_prec = 0;
 				format++;
 				while (*format >= '0' && *format <= '9')
 				{
-					precis = (precis * 10) + (*format) - '0';	
+					g_prec = (g_prec * 10) + (*format) - '0';
 					format++;
 				}
 			}
 			if (*format == 's')
-				count += ft_putstr(va_arg(ap, char *), wide, precis);
+				ft_print_s(va_arg(ap, char *));
 			else if (*format == 'd')
-				count += ft_putnbr(va_arg(ap, int), wide, precis);
+				ft_print_d(va_arg(ap, int));
 			else if (*format == 'x')
-				count += ft_puthex(va_arg(ap, unsigned int), wide);
-			format++;
+				ft_print_x(va_arg(ap, unsigned int));
 		}
 		else
-			count += write(1, format++, 1);
+			ft_putchar(*format);
+		format++;
 	}
-	
-	
 	va_end(ap);
-	return (count);
+	return (g_result);
 }
