@@ -22,10 +22,10 @@ static int ft_strlen(char *str)
 		i++;
 	return (i);
 }
-static char *ft_itoa(unsigned long num, int base)
+static char *ft_itoa(unsigned long int num, int base)
 {
 	char *str = NULL;
-	unsigned long temp = num;
+	unsigned long int temp = num;
 	int len = 0;
 	if (num == 0)
 		len++;
@@ -40,7 +40,7 @@ static char *ft_itoa(unsigned long num, int base)
 	str[len] = '\0';
 	while (len > 0)
 	{
-		if (num % base >= 10)
+		if (num % base > 9)
 			str[len - 1] = (num % base) + 'a' - 10;
 		else
 			str[len - 1] = (num % base) + '0';
@@ -112,19 +112,13 @@ int ft_printf(const char *format,... )
 		{
 			format++;
 			while (*format >= '0' && *format <= '9')
-			{
-				g_wide = (g_wide * 10) + (*format) - '0';
-				format++;
-			}
+				g_wide = (g_wide * 10) + (*format++) - '0';
 			if (*format == '.')
 			{
 				g_prec = 0;
 				format++;
 				while (*format >= '0' && *format <= '9')
-				{
-					g_prec = (g_prec * 10) + (*format) - '0';
-					format++;
-				}
+					g_prec = (g_prec * 10) + (*format++) - '0';
 			}
 			if (*format == 's')
 				ft_print_s(va_arg(ap, char *));

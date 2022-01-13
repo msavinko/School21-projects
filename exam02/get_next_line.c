@@ -12,11 +12,6 @@ int get_next_line(char **line)
 	buffer[i] = '\0';
 	return (result);
 }
-
-
-//leaks --atExit -- ./a.out
-//gcc -g -fsanitize=address ./a.out
-//cat test.txt | ./a.out 
 #include <stdio.h>
 int main(void)
 {
@@ -31,3 +26,7 @@ int main(void)
 	free(line);
 	line = NULL;
 }
+
+
+//leaks --atExit -- ./a.out
+//gcc -g -fsanitize=address ./a.out
