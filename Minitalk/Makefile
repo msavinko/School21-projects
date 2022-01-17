@@ -1,0 +1,85 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: marlean <marlean@student.42.fr>            +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2022/01/17 19:05:08 by marlean           #+#    #+#              #
+#    Updated: 2022/01/17 20:11:14 by marlean          ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
+SERVER				=	server
+CLIENT				=	client
+SERVER_BONUS		=	server_bonus
+CLIENT_BONUS		=	client_bonus
+
+HEADER				=	minitalk.h
+HEADER_BONUS		=	bonus/minitalk_bonus.h
+
+PRINTF				=	ft_printf/libftprintf.a
+
+#sources
+SERVER_SRC			=	server.c
+CLIENT_SRC			=	client.c
+SERVER_SRC_BONUS	=	bonus/server_bonus.c
+CLIENT_SRC_BONUS	=	bonus/client_bonus.c
+
+#create object files, change .c files to .o files
+SERVER_OBJS			=	$(patsubst %.c,%.o, $(SERVER_SRC:.c=.o))
+SERVER_OBJS_BONUS	=	$(patsubst %.c,%.o, $(SERVER_SRC_BONUS:.c=.o))
+CLIENT_OBJS			=	$(patsubst %.c,%.o, $(CLIENT_SRC:.c=.o))
+CLIENT_OBJS_BONUS	=	$(patsubst %.c,%.o, $(CLIENT_SRC_BONUS:.c=.o))
+
+OBJS				=	$(CLIENT_OBJS) $(SERVER_OBJS)
+OBJS_BONUS			=	$(CLIENT_OBJS_BONUS) $(SERVER_OBJS_BONUS)
+
+D_FILES				=	$(patsubst %.c,%.d, $(SERVER_SRC), $(CLIENT_SRC))
+CC					=	cc
+FLAGS				=	-Wall -Wextra -Werror
+
+#type all rule names
+.PHONY: all clean fclean re ft_printf bonus
+
+#main rule for all
+all: ft_printf $(SERVER) $(CLIENT)
+
+bonus: ft_printf $(SERVER_BONUS) $(CLIENT_BONUS)
+
+ft_printf	:
+	@make -C ft_printf
+
+#цель: пререквезит - зависимости (если зависимости новее - обновляем цель)
+#команды для сборки цели. собираем командой сс в -о цель из объектников
+$(SERVER): $(SERVER_OBJS) $(HEADER)
+	$(CC) -o $@ $(SERVER_OBJS) $(PRINTF)
+
+$(CLIENT): $(CLIENT_OBJS) $(HEADER)
+	$(CC) -o $@ $(CLIENT_OBJS) $(PRINTF)
+
+$(SERVER_BONUS): $(SERVER_OBJS_BONUS) $(HEADER_BONUS)
+	$(CC) $(SERVER_OBJS_BONUS) -o $@ $(PRINTF)
+
+$(CLIENT_BONUS): $(CLIENT_OBJS_BONUS) $(HEADER_BONUS)
+	$(CC) $(CLIENT_OBJS_BONUS) -o $@$(PRINTF)
+
+#каждому файлу .о нужно прописать зависимость от .с
+#компиляция с флагами 
+%.o		: %.c 
+	@$(CC) $(FLAGS) -c $< -o $@ -MD
+# $< автоматическая переменная. на которую подставляется .с файл.
+# $@ имя цели, то есть имя .о файла.
+# MD генерирует .д файлы - зависимости файлов от хедера
+
+include $(wildcard $(D_FILES))
+
+clean:
+	rm -rf $(OBJS) $(OBJS_BONUS)
+	cd ft_printf && make clean
+	
+fclean: clean
+	rm -rf $(SERVER) $(CLIENT) $(SERVER_BONUS) $(CLIENT_BONUS)
+	cd ft_printf && make fclean
+
+re:	fclean all
