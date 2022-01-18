@@ -6,7 +6,7 @@
 /*   By: marlean <marlean@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/17 13:25:45 by marlean           #+#    #+#             */
-/*   Updated: 2022/01/18 17:12:59 by marlean          ###   ########.fr       */
+/*   Updated: 2022/01/18 18:16:43 by marlean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,14 +43,14 @@ void	ft_send_string(char *str, int pid)
 				kill(pid, SIGUSR1);
 			else
 				kill(pid, SIGUSR2);
-			usleep(300);
+			usleep(200);
 		}
 	}
 	i = 8;
 	while (i--)
 	{
 		kill(pid, SIGUSR2);
-		usleep(300);
+		usleep(200);
 	}
 }
 
