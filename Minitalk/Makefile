@@ -6,7 +6,7 @@
 #    By: marlean <marlean@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/17 19:05:08 by marlean           #+#    #+#              #
-#    Updated: 2022/01/17 20:11:14 by marlean          ###   ########.fr        #
+#    Updated: 2022/01/18 12:16:38 by marlean          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,7 +35,7 @@ CLIENT_OBJS_BONUS	=	$(patsubst %.c,%.o, $(CLIENT_SRC_BONUS:.c=.o))
 OBJS				=	$(CLIENT_OBJS) $(SERVER_OBJS)
 OBJS_BONUS			=	$(CLIENT_OBJS_BONUS) $(SERVER_OBJS_BONUS)
 
-D_FILES				=	$(patsubst %.c,%.d, $(SERVER_SRC), $(CLIENT_SRC))
+D_FILES				=	$(patsubst %.c,%.d,$(SERVER_SRC) $(CLIENT_SRC) $(SERVER_SRC_BONUS) $(CLIENT_SRC_BONUS))
 CC					=	cc
 FLAGS				=	-Wall -Wextra -Werror
 
@@ -52,22 +52,22 @@ ft_printf	:
 
 #цель: пререквезит - зависимости (если зависимости новее - обновляем цель)
 #команды для сборки цели. собираем командой сс в -о цель из объектников
-$(SERVER): $(SERVER_OBJS) $(HEADER)
+$(SERVER): $(SERVER_OBJS)
 	$(CC) -o $@ $(SERVER_OBJS) $(PRINTF)
 
-$(CLIENT): $(CLIENT_OBJS) $(HEADER)
+$(CLIENT): $(CLIENT_OBJS)
 	$(CC) -o $@ $(CLIENT_OBJS) $(PRINTF)
 
 $(SERVER_BONUS): $(SERVER_OBJS_BONUS) $(HEADER_BONUS)
-	$(CC) $(SERVER_OBJS_BONUS) -o $@ $(PRINTF)
+	$(CC) -o $@ $(SERVER_OBJS_BONUS) $(PRINTF)
 
 $(CLIENT_BONUS): $(CLIENT_OBJS_BONUS) $(HEADER_BONUS)
-	$(CC) $(CLIENT_OBJS_BONUS) -o $@$(PRINTF)
+	$(CC) -o $@ $(CLIENT_OBJS_BONUS) $(PRINTF)
 
 #каждому файлу .о нужно прописать зависимость от .с
 #компиляция с флагами 
 %.o		: %.c 
-	@$(CC) $(FLAGS) -c $< -o $@ -MD
+	@$(CC) $(FLAGS) -I$(HEADER) -c $< -o $@ -MD
 # $< автоматическая переменная. на которую подставляется .с файл.
 # $@ имя цели, то есть имя .о файла.
 # MD генерирует .д файлы - зависимости файлов от хедера
@@ -75,7 +75,7 @@ $(CLIENT_BONUS): $(CLIENT_OBJS_BONUS) $(HEADER_BONUS)
 include $(wildcard $(D_FILES))
 
 clean:
-	rm -rf $(OBJS) $(OBJS_BONUS)
+	rm -rf $(OBJS) $(OBJS_BONUS) $(D_FILES)
 	cd ft_printf && make clean
 	
 fclean: clean

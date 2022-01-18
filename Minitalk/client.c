@@ -6,12 +6,11 @@
 /*   By: marlean <marlean@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/14 18:40:40 by marlean           #+#    #+#             */
-/*   Updated: 2022/01/17 17:19:04 by marlean          ###   ########.fr       */
+/*   Updated: 2022/01/18 16:24:21 by marlean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
-#include <stdio.h>
 
 int	ft_mini_atoi(const char *str)
 {
@@ -31,7 +30,7 @@ int	ft_mini_atoi(const char *str)
 
 void	ft_send_string(char *str, int pid)
 {
-	int		i;
+	int				i;
 	unsigned char	c;
 
 	while (*str)
@@ -44,14 +43,14 @@ void	ft_send_string(char *str, int pid)
 				kill(pid, SIGUSR1);
 			else
 				kill(pid, SIGUSR2);
-			usleep(100);
+			usleep(300);
 		}
 	}
 	i = 8;
 	while (i--)
 	{
 		kill(pid, SIGUSR2);
-		usleep(100);
+		usleep(300);
 	}
 }
 
