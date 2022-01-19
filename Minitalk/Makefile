@@ -6,7 +6,7 @@
 #    By: marlean <marlean@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/17 19:05:08 by marlean           #+#    #+#              #
-#    Updated: 2022/01/18 12:16:38 by marlean          ###   ########.fr        #
+#    Updated: 2022/01/19 15:41:59 by marlean          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,15 +40,15 @@ CC					=	cc
 FLAGS				=	-Wall -Wextra -Werror
 
 #type all rule names
-.PHONY: all clean fclean re ft_printf bonus
+.PHONY: all clean fclean re  bonus
 
 #main rule for all
-all: ft_printf $(SERVER) $(CLIENT)
+all:  $(SERVER) $(CLIENT)
 
-bonus: ft_printf $(SERVER_BONUS) $(CLIENT_BONUS)
+bonus:  $(SERVER_BONUS) $(CLIENT_BONUS)
 
-ft_printf	:
-	@make -C ft_printf
+# ft_printf	:
+# 	@make -C ft_printf
 
 #цель: пререквезит - зависимости (если зависимости новее - обновляем цель)
 #команды для сборки цели. собираем командой сс в -о цель из объектников
@@ -68,6 +68,7 @@ $(CLIENT_BONUS): $(CLIENT_OBJS_BONUS) $(HEADER_BONUS)
 #компиляция с флагами 
 %.o		: %.c 
 	@$(CC) $(FLAGS) -I$(HEADER) -c $< -o $@ -MD
+	@make -C ft_printf
 # $< автоматическая переменная. на которую подставляется .с файл.
 # $@ имя цели, то есть имя .о файла.
 # MD генерирует .д файлы - зависимости файлов от хедера
