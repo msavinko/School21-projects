@@ -6,7 +6,7 @@
 /*   By: marlean <marlean@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/14 18:40:33 by marlean           #+#    #+#             */
-/*   Updated: 2022/01/18 18:16:44 by marlean          ###   ########.fr       */
+/*   Updated: 2022/01/19 14:54:46 by marlean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,21 @@ void	ft_sighandle(int signal, siginfo_t *siginfo, void *context)
 {
 	static int	i = 0;
 	static char	c = 0;
+	static int	pid = 0;
 
 	(void)context;
-	(void)siginfo;
+	if (!pid || pid != siginfo->si_pid)
+	{
+		i = 0;
+		c = 0;
+		pid = siginfo->si_pid;
+	}
 	if (signal == SIGUSR1)
 		c = c | 1;
 	if (++i == 8)
 	{	
 		i = 0;
-		ft_printf("%c", c);
+		write(1, &c, 1);
 		c = 0;
 	}
 	else
