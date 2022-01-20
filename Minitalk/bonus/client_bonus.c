@@ -6,13 +6,13 @@
 /*   By: marlean <marlean@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/17 13:25:45 by marlean           #+#    #+#             */
-/*   Updated: 2022/01/18 18:43:55 by marlean          ###   ########.fr       */
+/*   Updated: 2022/01/20 18:37:35 by marlean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk_bonus.h"
 
-int	ft_mini_atoi(const char *str)
+static int	ft_mini_atoi(const char *str)
 {
 	int			i;
 	long int	num;
@@ -28,7 +28,7 @@ int	ft_mini_atoi(const char *str)
 	return ((int)num);
 }
 
-void	ft_send_string(char *str, int pid)
+static void	ft_send_string(char *str, int pid)
 {
 	int				i;
 	unsigned char	c;
@@ -43,24 +43,32 @@ void	ft_send_string(char *str, int pid)
 				kill(pid, SIGUSR1);
 			else
 				kill(pid, SIGUSR2);
-			usleep(200);
+			usleep(900);
 		}
 	}
 	i = 8;
 	while (i--)
 	{
 		kill(pid, SIGUSR2);
-		usleep(200);
+		usleep(900);
 	}
 }
 
-void	ft_actclient(int sigclient, siginfo_t *clientinfo, void *ccontext)
+static void	ft_actclient(int sigclient, siginfo_t *clientinfo, void *ccontext)
 {
+	static int	count_signals = 0;
+	
 	(void)ccontext;
 	(void)clientinfo;
-	if (sigclient == SIGUSR2)
-		ft_printf("\nCongrats! Signal from server received!\n");
-	exit(0);
+
+	if (sigclient == SIGUSR1)
+		++count_signals;
+	else if (sigclient == SIGUSR2)
+	{
+		ft_printf("Congrats! %d characters received!\n", count_signals);
+		exit(0);
+	}
+
 }
 
 int	main(int argc, char *argv[])
@@ -70,12 +78,18 @@ int	main(int argc, char *argv[])
 
 	s_clientaction.sa_sigaction = ft_actclient;
 	s_clientaction.sa_flags = SA_SIGINFO;
+	sigaction(SIGUSR1, &s_clientaction, NULL);
 	sigaction(SIGUSR2, &s_clientaction, NULL);
 	if (argc == 3)
 	{
 		pid = ft_mini_atoi(argv[1]);
 		if (pid != 0)
+		{
+			int	len = (int)ft_strlen(argv[2]);
+			ft_printf("%d charachters sent!\n", len);
+			//usleep(500);
 			ft_send_string(argv[2], pid);
+		}
 		else
 			ft_printf("Wrong PID");
 	}

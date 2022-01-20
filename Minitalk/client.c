@@ -6,13 +6,13 @@
 /*   By: marlean <marlean@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/14 18:40:40 by marlean           #+#    #+#             */
-/*   Updated: 2022/01/19 15:07:59 by marlean          ###   ########.fr       */
+/*   Updated: 2022/01/20 18:14:01 by marlean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
 
-int	ft_mini_atoi(const char *str)
+static int	ft_mini_atoi(const char *str)
 {
 	int			i;
 	long int	num;
@@ -28,7 +28,7 @@ int	ft_mini_atoi(const char *str)
 	return ((int)num);
 }
 
-void	ft_send_string(char *str, int pid)
+static void	ft_send_string(char *str, int pid)
 {
 	int				i;
 	unsigned char	c;
@@ -43,14 +43,14 @@ void	ft_send_string(char *str, int pid)
 				kill(pid, SIGUSR1);
 			else
 				kill(pid, SIGUSR2);
-			usleep(500);
+			usleep(700);
 		}
 	}
 	i = 8;
 	while (i--)
 	{
 		kill(pid, SIGUSR2);
-		usleep(500);
+		usleep(700);
 	}
 }
 

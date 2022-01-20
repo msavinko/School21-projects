@@ -6,40 +6,47 @@
 /*   By: marlean <marlean@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/17 13:26:22 by marlean           #+#    #+#             */
-/*   Updated: 2022/01/19 13:02:16 by marlean          ###   ########.fr       */
+/*   Updated: 2022/01/20 18:31:20 by marlean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk_bonus.h"
-
-void	ft_sighandle(int signal, siginfo_t *siginfo, void *context)
+static void	ft_send_responce(int pid, int count)
+{
+	while (count--)
+		kill(pid, SIGUSR1);
+	kill (pid, SIGUSR2);
+}
+static void	ft_sighandle(int signal, siginfo_t *siginfo, void *context)
 {
 	static int	i = 0;
 	static char	c = 0;
 	static int	pid = 0;
 	static int	nullcount = 0;
+	static int	count = 0;
 
 	(void)context;
 	if (!pid || pid != siginfo->si_pid)
 	{
 		i = 0;
+		c = 0;
 		pid = siginfo->si_pid;
 	}
-	if (signal == SIGUSR1)
-		c = c | 1;
-	if (signal == SIGUSR2)
-		nullcount++;
+	c |= (signal == SIGUSR1);
+	nullcount += (signal == SIGUSR2);
 	if (++i == 8)
 	{	
-		i = 0;
 		if (nullcount == 8)
-		{
-			kill(siginfo->si_pid, SIGUSR2);
+		{	
+			ft_send_responce(pid, count);
+			kill(pid, SIGUSR2);
 			return ;
 		}
-		write(1, &c, 1);
+		i = 0;
+		count = write(1, &c, 1);
 		c = 0;
 		nullcount = 0;
+		kill(pid, SIGUSR1);
 	}
 	else
 		c = c << 1;

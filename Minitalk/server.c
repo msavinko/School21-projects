@@ -6,30 +6,29 @@
 /*   By: marlean <marlean@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/14 18:40:33 by marlean           #+#    #+#             */
-/*   Updated: 2022/01/19 14:54:46 by marlean          ###   ########.fr       */
+/*   Updated: 2022/01/20 18:14:18 by marlean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
 
-void	ft_sighandle(int signal, siginfo_t *siginfo, void *context)
+static void	ft_sighandle(int signal, siginfo_t *siginfo, void *context)
 {
-	static int	i = 0;
+	static int	index = 0;
 	static char	c = 0;
 	static int	pid = 0;
 
 	(void)context;
 	if (!pid || pid != siginfo->si_pid)
 	{
-		i = 0;
+		index = 0;
 		c = 0;
 		pid = siginfo->si_pid;
 	}
-	if (signal == SIGUSR1)
-		c = c | 1;
-	if (++i == 8)
+	c |= (signal == SIGUSR1);
+	if (++index == 8)
 	{	
-		i = 0;
+		index = 0;
 		write(1, &c, 1);
 		c = 0;
 	}

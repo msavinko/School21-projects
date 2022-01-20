@@ -6,7 +6,7 @@
 #    By: marlean <marlean@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/17 19:05:08 by marlean           #+#    #+#              #
-#    Updated: 2022/01/19 15:41:59 by marlean          ###   ########.fr        #
+#    Updated: 2022/01/19 15:46:51 by marlean          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,7 +45,7 @@ FLAGS				=	-Wall -Wextra -Werror
 #main rule for all
 all:  $(SERVER) $(CLIENT)
 
-bonus:  $(SERVER_BONUS) $(CLIENT_BONUS)
+bonus: $(SERVER_BONUS) $(CLIENT_BONUS)
 
 # ft_printf	:
 # 	@make -C ft_printf
