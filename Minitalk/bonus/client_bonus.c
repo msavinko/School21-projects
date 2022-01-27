@@ -6,7 +6,7 @@
 /*   By: marlean <marlean@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/17 13:25:45 by marlean           #+#    #+#             */
-/*   Updated: 2022/01/20 18:37:35 by marlean          ###   ########.fr       */
+/*   Updated: 2022/01/21 12:19:28 by marlean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,24 +43,23 @@ static void	ft_send_string(char *str, int pid)
 				kill(pid, SIGUSR1);
 			else
 				kill(pid, SIGUSR2);
-			usleep(900);
+			usleep(700);
 		}
 	}
 	i = 8;
 	while (i--)
 	{
 		kill(pid, SIGUSR2);
-		usleep(900);
+		usleep(700);
 	}
 }
 
 static void	ft_actclient(int sigclient, siginfo_t *clientinfo, void *ccontext)
 {
 	static int	count_signals = 0;
-	
+
 	(void)ccontext;
 	(void)clientinfo;
-
 	if (sigclient == SIGUSR1)
 		++count_signals;
 	else if (sigclient == SIGUSR2)
@@ -68,12 +67,12 @@ static void	ft_actclient(int sigclient, siginfo_t *clientinfo, void *ccontext)
 		ft_printf("Congrats! %d characters received!\n", count_signals);
 		exit(0);
 	}
-
 }
 
 int	main(int argc, char *argv[])
 {
 	int					pid;
+	int					len;
 	struct sigaction	s_clientaction;
 
 	s_clientaction.sa_sigaction = ft_actclient;
@@ -85,9 +84,8 @@ int	main(int argc, char *argv[])
 		pid = ft_mini_atoi(argv[1]);
 		if (pid != 0)
 		{
-			int	len = (int)ft_strlen(argv[2]);
+			len = (int)ft_strlen(argv[2]);
 			ft_printf("%d charachters sent!\n", len);
-			//usleep(500);
 			ft_send_string(argv[2], pid);
 		}
 		else

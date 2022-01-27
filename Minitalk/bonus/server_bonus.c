@@ -6,50 +6,47 @@
 /*   By: marlean <marlean@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/17 13:26:22 by marlean           #+#    #+#             */
-/*   Updated: 2022/01/20 18:31:20 by marlean          ###   ########.fr       */
+/*   Updated: 2022/01/21 12:19:55 by marlean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk_bonus.h"
-static void	ft_send_responce(int pid, int count)
+
+static t_bonus	bonus_null(void)
 {
-	while (count--)
-		kill(pid, SIGUSR1);
-	kill (pid, SIGUSR2);
+	struct s_bonus	t_bonus;
+
+	t_bonus.i = 0;
+	t_bonus.c = 0;
+	t_bonus.nullcount = 0;
+	return (t_bonus);
 }
+
 static void	ft_sighandle(int signal, siginfo_t *siginfo, void *context)
 {
-	static int	i = 0;
-	static char	c = 0;
-	static int	pid = 0;
-	static int	nullcount = 0;
-	static int	count = 0;
+	static struct s_bonus	t_bonus;
 
 	(void)context;
-	if (!pid || pid != siginfo->si_pid)
+	if (!t_bonus.pid || t_bonus.pid != siginfo->si_pid)
 	{
-		i = 0;
-		c = 0;
-		pid = siginfo->si_pid;
+		t_bonus = bonus_null();
+		t_bonus.pid = siginfo->si_pid;
 	}
-	c |= (signal == SIGUSR1);
-	nullcount += (signal == SIGUSR2);
-	if (++i == 8)
+	t_bonus.c |= (signal == SIGUSR1);
+	t_bonus.nullcount += (signal == SIGUSR2);
+	if (++t_bonus.i == 8)
 	{	
-		if (nullcount == 8)
+		if (t_bonus.nullcount == 8)
 		{	
-			ft_send_responce(pid, count);
-			kill(pid, SIGUSR2);
+			kill(siginfo->si_pid, SIGUSR2);
 			return ;
 		}
-		i = 0;
-		count = write(1, &c, 1);
-		c = 0;
-		nullcount = 0;
-		kill(pid, SIGUSR1);
+		write(1, &t_bonus.c, 1);
+		t_bonus = bonus_null();
+		kill(siginfo->si_pid, SIGUSR1);
 	}
 	else
-		c = c << 1;
+		t_bonus.c <<= 1;
 }
 
 int	main(void)

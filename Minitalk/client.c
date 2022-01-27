@@ -6,7 +6,7 @@
 /*   By: marlean <marlean@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/14 18:40:40 by marlean           #+#    #+#             */
-/*   Updated: 2022/01/20 18:14:01 by marlean          ###   ########.fr       */
+/*   Updated: 2022/01/21 12:23:32 by marlean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,9 +67,6 @@ int	main(int argc, char *argv[])
 			ft_printf("Wrong PID");
 	}
 	else
-	{
 		ft_printf("Wrong input, please try again\n");
-	}
-	//exit (0);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: marlean <marlean@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/14 18:40:33 by marlean           #+#    #+#             */
-/*   Updated: 2022/01/20 18:14:18 by marlean          ###   ########.fr       */
+/*   Updated: 2022/01/27 14:07:43 by marlean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static void	ft_sighandle(int signal, siginfo_t *siginfo, void *context)
 		c = 0;
 		pid = siginfo->si_pid;
 	}
-	c |= (signal == SIGUSR1);
+	c = c | (signal == SIGUSR1);
 	if (++index == 8)
 	{	
 		index = 0;
@@ -41,8 +41,8 @@ int	main(void)
 	struct sigaction	s_sa;
 
 	ft_printf("Server PID: %d\n", getpid());
-	s_sa.sa_sigaction = ft_sighandle;
 	s_sa.sa_flags = SA_SIGINFO;
+	s_sa.sa_sigaction = ft_sighandle;
 	sigaction(SIGUSR1, &s_sa, NULL);
 	sigaction(SIGUSR2, &s_sa, NULL);
 	while (1)

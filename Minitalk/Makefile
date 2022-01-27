@@ -6,7 +6,7 @@
 #    By: marlean <marlean@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/17 19:05:08 by marlean           #+#    #+#              #
-#    Updated: 2022/01/19 15:46:51 by marlean          ###   ########.fr        #
+#    Updated: 2022/01/27 12:27:58 by marlean          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,10 +27,10 @@ SERVER_SRC_BONUS	=	bonus/server_bonus.c
 CLIENT_SRC_BONUS	=	bonus/client_bonus.c
 
 #create object files, change .c files to .o files
-SERVER_OBJS			=	$(patsubst %.c,%.o, $(SERVER_SRC:.c=.o))
-SERVER_OBJS_BONUS	=	$(patsubst %.c,%.o, $(SERVER_SRC_BONUS:.c=.o))
-CLIENT_OBJS			=	$(patsubst %.c,%.o, $(CLIENT_SRC:.c=.o))
-CLIENT_OBJS_BONUS	=	$(patsubst %.c,%.o, $(CLIENT_SRC_BONUS:.c=.o))
+SERVER_OBJS			=	$(patsubst %.c,%.o, $(SERVER_SRC))
+SERVER_OBJS_BONUS	=	$(patsubst %.c,%.o, $(SERVER_SRC_BONUS))
+CLIENT_OBJS			=	$(patsubst %.c,%.o, $(CLIENT_SRC))
+CLIENT_OBJS_BONUS	=	$(patsubst %.c,%.o, $(CLIENT_SRC_BONUS))
 
 OBJS				=	$(CLIENT_OBJS) $(SERVER_OBJS)
 OBJS_BONUS			=	$(CLIENT_OBJS_BONUS) $(SERVER_OBJS_BONUS)
@@ -40,15 +40,15 @@ CC					=	cc
 FLAGS				=	-Wall -Wextra -Werror
 
 #type all rule names
-.PHONY: all clean fclean re  bonus
+.PHONY: all clean fclean re bonus
 
 #main rule for all
-all:  $(SERVER) $(CLIENT)
+all:  $(PRINTF) $(SERVER) $(CLIENT)
 
 bonus: $(SERVER_BONUS) $(CLIENT_BONUS)
 
-# ft_printf	:
-# 	@make -C ft_printf
+$(PRINTF)	:
+	make -C ft_printf
 
 #цель: пререквезит - зависимости (если зависимости новее - обновляем цель)
 #команды для сборки цели. собираем командой сс в -о цель из объектников
