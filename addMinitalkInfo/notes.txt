@@ -1,0 +1,143 @@
+signals
+
+kill -l
+terminate or signal a process
+kill PID (_num_)
+завершает незаконченный процесс в этом терминале
+
+kill -s USR1 64641 
+// 64641 - номер pid (передать сигнал)
+
+-l [exit_status]
+    If no operand is given, list the signal names; 
+	otherwise, write the signal name corresponding
+    to exit_status.
+чтобы передать предварительно выбранный сигнал определенному 
+процессу, рекомендуется воспользоваться утилитой kill.
+
+отправлять сигнал с помощью команды kill(_pid_, _signal_);
+
+
+ps aux | grep ssh
+marlean            801   0.0  0.0  4268040    788 s000  S+    2:39PM   0:00.00 grep ssh
+PID(process id) - 801
+ps
+можно посмотреть сколько терминалов открыто и их ПИД
+
+
+SIGSEGV - Segmentation fault
+SIGTERM - завершить программу
+SIGBUS - bus error
+
+SIGUSR1 && SIGUSR2
+можно принимать на стороне сервера как 1 и 0
+
+SIGNAL или SIGACTION
+нужно объявить структуру с использованием библиотеки <signal.h>
+_structName_.sa_flags = SA_SIGINFO;
+_structName_.sa_sigaction = _your_ft_name;
+sigaction(_signalName_, &_structName_, NULL);
+
+когда получаем сигнал - то система должна обращаться к структуре
+struct sigaction sigac;
+sigac.sa_flags = SA_SIGINFO;
+sigac.sa_sigaction = ft_sighandler;
+sigaction(SIGUSR1, &sigac, NULL);
+sigaction(SIGUSR2, &sigac, NULL);
+
+void _your_ft_name_(int singal, siginfo_t *siginfo, void *context)
+
+siginfo_t:
+typedef struct {
+	int si_signo;
+	int si_code;
+	union sigval si_value;
+	int si_errno;
+	pid_t si_pid; // содержится номер процесса, 
+	который прислал нам этот сигнал. Автозаполнение.
+	uid_t si_uid;
+	void *si_addr;
+	int si_stratus;
+	int si_band;
+} siginfo_t;
+
+
+
+get pid();
+
+нам нужно было создать локальные сервер и клиент программы, 
+которые общаются друг с другом внутри компьютера через ПИД.
+она отправляют сигналы, зная ПИД, сообщение можно отправлять 
+двумя сигналами: 0 или 1.
+нужно декодировать строку чаров побитово и собрать ее на 
+сервере обратно в слова, чтобы он нам выдал сообщение.
+
+на Маке сигналы встают в очередь
+
+
+
+signal(); 
+функция signal устанавливает ответ на сигнал
+http://www.c-cpp.ru/content/signal
+void signal(int signal(MACROS), void sigfunc);
+первое значение это макрос из библиотеки signal.h,
+второе значение это войдовая функция, которая будет выполняться
+В случае успеха функция signal() возвращает адрес функции, которая была ранее 
+определена для обработки заданного сигнала. 
+В случае ошибки возвращается SIG_ERR, а переменная errno устанавливается в EINVAL.
+
+SIGUSR1, SIGUSR2, SIGUSR3	Сигналы, определяемые пользователем
+
+int sigemptyset(sigset_t *set);
+https://www.opennet.ru/man.shtml?topic=sigemptyset&category=3&russian=0
+инициализирует набор сигналов, указанный в set, и "очищает" его от всех сигналов.
+sigemptyset просто инициализирует signalmask пустым, так что гарантируется, что никакой 
+сигнал не будет замаскирован. (то есть все сигналы будут приняты)
+
+
+
+---Побитовые сдвиги--- 
+
+побитовые операции (бинарная операция - на двух значениях)
+
+& AND (и одно и другое истина)
+| OR (одно из условий истина)
+<<_num_ сдвиг влево (дописывает справа нули)
+>>_num_ сдвиг вправо (дописывает слева нули)
+
+char = 8 bit
+char c = 'A' (== 01000001)
+int n = 64 (== 01000000)
+
+char newchar = c & n //результат побитовой операции И . 01000000
+
+128= 10000000
+
+66 = 01000010
+
+0000000 0 & 1 = 0
+000000 01 & 1 = 1
+00000 010 & 1 = 0
+0000 0100 & 1 = 0
+
+----
+
+0 | 0 = 00
+00 | 1 = 010
+
+
+
+65 = 01000001
+64 = 01000000
+
+33 = 00100001
+32 = 00100000
+16 = 00010000
+8  = 00001000
+4  = 00000100
+2  = 00000010
+1  = 00000001
+
+-------------
+if we press Ctrl+Z the process will stop 
+and if then we type fg (foreground) the process will continue

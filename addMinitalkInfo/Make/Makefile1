@@ -1,0 +1,57 @@
+#Names
+SERVER	=	server
+CLIENT	=	client
+
+#Files
+SERVER		=	src/server.c
+
+CLIENT		=	src/client.c
+
+PRINTF		=	ft_printf/libftprintf.a
+
+HEADER		=	minitalk.h
+
+#Sources and Objects
+SERVER_SRC	=	$(SERVER)
+SERVER_OBJ	=	$(SERVER_SRC:.c=.o)
+
+CLIENT_SRC	=	$(CLIENT)
+CLIENT_OBJ	=	$(CLIENT_SRC:.c=.o)
+
+OBJ			=	$(SERVER_OBJ) $(CLIENT_OBJ)
+
+#Default parameters
+CC			=	cc
+CFLAGS		=	-Wall -Wextra -Werror
+RM			=	rm -rf
+
+.PHONY		:	all clean fclean re
+
+all			:	$(PRINTF) $(SERVER) $(CLIENT)
+
+#добавить директорию ft_printf #также прописать в хедер minitalk.h : # include "ft_printf/ft_printf.h"
+$(PRINTF)	:
+	make -C ft_printf
+
+#цель сервер: собрать из объектников и хедера. компилить объектники и принтф в имя цели
+$(SERVER)	:	$(SERVER_OBJ) $(HEADER)
+	$(CC) $(SERVER_OBJ) $(PRINTF) -o $@ $?
+
+$(CLIENT)	:	$(CLIENT_OBJ) $(HEADER)
+	$(CC) $(CLIENT_OBJ) $(PRINTF) -o $@ $?
+
+%.o			:	%.c
+	$(CC) $(CFLAGS) $< -c -I $(HEADER) $(PRINTF)
+
+#bonus		:	ADDPRINT $(SERVER_B) $(CLIENT_B)
+#	@make SERVER="$(SERVER_B)" CLIENT="$(CLIENT_B)" all
+
+clean		:
+	make clean -C ft_printf
+	$(RM) $(OBJ)
+
+fclean		:	clean
+	make fclean -C ft_printf
+	$(RM) $(SERVER) $(CLIENT)
+
+re			:	fclean all

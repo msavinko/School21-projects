@@ -1,0 +1,47 @@
+SERVER_NAME	=	server
+CLIENT_NAME	=	client
+
+CC			=	cc
+FLAGS		=	-Wall -Wextra -Werror
+
+HEADER		=	minitalk.h
+PRINTF			=	ft_printf/libftprintf.a
+
+SERVER_SRC	=	server.c
+CLIENT_SRC	=	client.c
+
+SERVER_OBJS	=	$(SERVER_SRC:.c=.o)
+CLIENT_OBJS	=	$(CLIENT_SRC:.c=.o)
+
+OBJS		=	$(CLIENT_OBJS) \
+				$(SERVER_OBJS)
+
+
+all: $(PRINTF_FILE) $(SERVER) $(CLIENT)
+
+$(PRINTF_FILE)	:
+	make -C ft_printf
+$(SERVER): $(SERVER_OBJS)
+	@$(CC) $(FLAGS) $(SERVER_OBJS) $(PRINTF) -o $(SERVER_NAME)
+	
+
+$(CLIENT): $(CLIENT_OBJS)
+	@$(CC) $(FLAGS) $(CLIENT_OBJS) $(PRINTF) -o $(CLIENT_NAME)
+	
+
+clean:
+	@rm -rf $(OBJS)
+	@cd ft_printf && make clean
+	
+
+fclean: clean
+	@rm -rf $(SERVER_NAME) $(CLIENT_NAME)
+	@cd ft_printf && make fclean
+	
+
+.c.o:
+	@${CC} ${FLAGS} -I$(HEADER) -c $< -o $@
+
+re:	fclean all
+
+.PHONY: all client clean fclean re ft_printf

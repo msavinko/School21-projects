@@ -1,0 +1,64 @@
+SERVER		=	server
+SERVER_BNS	=	bonus/server_bonus
+
+CLIENT		=	client
+CLIENT_BNS	= bonus/client_bonus
+
+PRINTF		=	ft_printf/libftprintf.a
+
+CLIENTBNS_N	=	bonus/client
+SERVERBNS_N	=	bonus/server
+
+SRC			=	${SERVER}.c \
+				${CLIENT}.c
+SRC_BNS		=	${SERVER_BNS}.c \
+				${CLIENT_BNS}.c
+
+OBJ			=	${SRC:.c=.o}
+OBJ_BNS		=	${SRC_BNS:.c=.o}
+
+HEADER		=	minitalk.h
+
+HEADER_BNS	=	bonus/minitalk_bonus.h
+
+FLAGS		=	-Wall -Werror -Wextra
+
+CC			=	gcc
+
+RM			=	rm -rf
+
+all			:	UTIL ${SERVER} ${CLIENT}
+
+bonus		:	UTIL ${SERVER_BNS} ${CLIENT_BNS}
+
+UTIL		:	
+				make -C ft_printf
+
+${SERVER}	:	${SERVER}.o ${HEADER} ${PRINTF}
+				${CC} ${FLAGS} ${SERVER}.o ${PRINTF} -o ${SERVER}
+
+${CLIENT}	:	${CLIENT}.o ${HEADER} ${PRINTF}
+				${CC} ${FLAGS} ${CLIENT}.o ${PRINTF} -o ${CLIENT}
+
+${SERVER_BNS}		:	${SERVER_BNS}.o ${HEADER_BNS} ${PRINTF}
+						${CC} ${FLAGS} ${SERVER_BNS}.o ${PRINTF} -o ${SERVERBNS_N}
+
+${CLIENT_BNS}		:	${CLIENT_BNS}.o ${HEADER_BNS} ${PRINTF}
+						${CC} ${FLAGS} ${CLIENT_BNS}.o ${PRINTF} -o ${CLIENTBNS_N}
+
+%.o			:	%.c
+				${CC} ${FLAGS} -c $< -o $@
+
+clean		:
+				make clean -C ft_printf
+				${RM} ${OBJ}
+				${RM} ${OBJ_BNS}
+
+fclean		:	clean
+				make fclean -C ft_printf
+				${RM} ${SERVER} ${CLIENT}
+				${RM} bonus/client bonus/server
+
+re			:	fclean all
+
+.PHONY		:	all clean fclean re
