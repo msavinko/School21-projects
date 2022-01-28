@@ -5,7 +5,7 @@ LIBFT	=	$(LIB_DIR)libft.a
 
 HEADER	=	push_swap.h
 
-SRCS	=	push_swap.c
+SRCS	=	push_swap.c ft_check.c ft_ps_utils.c
 OBJS	=	$(SRCS:.c=.o)
 
 CC		=	cc
@@ -23,7 +23,6 @@ $(NAME)	:	$(OBJS) $(HEADER)
 			$(CC) $(CFLAGS) -I$(HEADER) -c $< -o $@
 
 $(LIBFT):
-			make -C $(LIB_DIR)
 			make -C $(LIB_DIR) bonus
 
 clean	:
