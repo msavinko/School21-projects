@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_check.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marlean <marlean@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mariasavinova <mariasavinova@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/28 09:17:27 by marlean           #+#    #+#             */
-/*   Updated: 2022/01/28 15:13:51 by marlean          ###   ########.fr       */
+/*   Updated: 2022/01/31 11:13:06 by mariasavino      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ int	ft_isint(char *str)
 	i = 0;
 	while (str[i])
 	{
+		if (str[i] == '-' || str[i] == '+')
+			i++;
 		if (ft_isdigit(str[i]))
 			num = num * 10 + (str[i++] - '0');
 		else
