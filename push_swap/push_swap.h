@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   push_swap.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mariasavinova <mariasavinova@student.42    +#+  +:+       +#+        */
+/*   By: marlean <marlean@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/27 10:30:28 by marlean           #+#    #+#             */
-/*   Updated: 2022/01/31 16:58:26 by mariasavino      ###   ########.fr       */
+/*   Updated: 2022/02/02 16:39:57 by marlean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,11 @@
 # define INT_MAX 2147483647
 # define INT_MIN -2147483648
 
-typedef struct s_plist
+typedef struct s_pslist
 {
 	int				value;
-	struct s_plist *next;
-}					t_plist;
+	struct s_pslist *next;
+}					t_pslist;
 
 int		ft_isint(char *str);
 void	ft_error(int error_code);
@@ -33,5 +33,16 @@ void	ft_check_int(char **array);
 void	ft_check_repeat(char **array);
 int		ft_array_len(char **array);
 int		ft_create_int_array_and_check_sort(char **array, int len);
+void	ft_create_list(char **array);
+void	ft_pslstadd_back(t_pslist **lst, t_pslist *new);
+void	ft_swap(t_pslist **stack);
+void	ft_ss(t_pslist **stack_a, t_pslist **stack_b);
+void	ft_push(t_pslist **stack_a, t_pslist **stack_b);
+void	ft_rotate(t_pslist **stack);
+t_pslist	*ft_pslstlast(t_pslist *lst);
+
+
+
+void	ft_print_stack(t_pslist *stack);
 
 #endif
