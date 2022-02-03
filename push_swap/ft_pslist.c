@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   ft_pslist.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marlean <marlean@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mariasavinova <mariasavinova@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 10:25:56 by marlean           #+#    #+#             */
-/*   Updated: 2022/02/03 18:38:31 by marlean          ###   ########.fr       */
+/*   Updated: 2022/02/03 23:37:47 by mariasavino      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-void	ft_print_stack(t_pslist *stack, char c)
+void ft_print_stack(t_pslist *stack, char c)
 {
-	int	i;
+	int i;
 
 	i = 0;
 	printf("\n----Stack %c----\n", c);
@@ -25,9 +25,9 @@ void	ft_print_stack(t_pslist *stack, char c)
 	}
 }
 
-void	ft_pslstadd_back(t_pslist **lst, t_pslist *new)
+void ft_pslstadd_back(t_pslist **lst, t_pslist *new)
 {
-	t_pslist	*elem;
+	t_pslist *elem;
 
 	elem = *lst;
 	if (elem)
@@ -40,7 +40,7 @@ void	ft_pslstadd_back(t_pslist **lst, t_pslist *new)
 		*lst = new;
 }
 
-t_pslist	*ft_pslstlast(t_pslist *lst)
+t_pslist *ft_pslstlast(t_pslist *lst)
 {
 	while (lst)
 	{
@@ -51,7 +51,7 @@ t_pslist	*ft_pslstlast(t_pslist *lst)
 	return (lst);
 }
 
-t_pslist	*ft_ps_one_before_lstlast(t_pslist *lst)
+t_pslist *ft_ps_one_before_lstlast(t_pslist *lst)
 {
 	while (lst)
 	{
@@ -62,9 +62,9 @@ t_pslist	*ft_ps_one_before_lstlast(t_pslist *lst)
 	return (lst);
 }
 
-int	ft_pslstsize(t_pslist *lst)
+int ft_pslstsize(t_pslist *lst)
 {
-	int	i;
+	int i;
 
 	i = 0;
 	if (lst)
@@ -78,11 +78,11 @@ int	ft_pslstsize(t_pslist *lst)
 	return (i);
 }
 
-t_pslist	*ft_create_list(char **array)
+t_pslist *ft_create_list(char **array)
 {
-	t_pslist	*stack_a;
-	t_pslist	*current;
-	int			i;
+	t_pslist *stack_a;
+	t_pslist *current;
+	int i;
 
 	i = 1;
 	stack_a = malloc(sizeof(t_pslist));
@@ -103,47 +103,134 @@ t_pslist	*ft_create_list(char **array)
 	return (stack_a);
 }
 
-void	ft_sort_three(t_pslist **stack)
+void ft_sort_three(t_pslist **stack)
 {
-	t_pslist	*current;
+	t_pslist *a;
+	t_pslist *b;
+	t_pslist *c;
 
-	current = *stack;
-	if (current->value > current->next->value)
-	{
-		if (current->next->value < current->next->next->value)
-		{
-			ft_rotate(stack, 1, 1);
-			return ;
-		}
+	a = *stack;
+	b = (*stack)->next;
+	c = (*stack)->next->next;
+	if (c->value > a->value && c->value > b->value)
 		ft_swap(stack, 1, 1);
-		current = (*stack)->next;
-		if (current->value > current->next->value)
-			ft_rev_rotate(stack, 1, 1);
+	else if (a->value > b->value && a->value > c->value)
+	{
+		ft_rotate(stack, 1, 1);
+		if (b->value > c->value)
+			ft_swap(stack, 1, 1);
 	}
-	else
+	else if (b->value > a->value && b->value > c->value)
 	{
 		ft_rev_rotate(stack, 1, 1);
-		current = (*stack)->next;
-		if (current->value > current->next->value)
+		if (c->value > a->value)
 			ft_swap(stack, 1, 1);
 	}
 }
-
-void	ft_push_swap(char **array)
+int	ft_find_min(t_pslist **stack)
 {
-	t_pslist	*stack_a;
-	t_pslist	*stack_b;
+	int	min;
+	
+	if (!(*stack))
+		return (0);
+	min = INT_MAX;
+	while (*stack)
+	{
+		if ((*stack)->value < min)
+			min = (*stack)->value;
+		(*stack) = (*stack)->next;
+	}
+	return (min);
+}
+
+void	ft_sort_five(t_pslist **stack_a, t_pslist **stack_b)
+{
+	int	min;
+	t_pslist *a;
+	t_pslist *b;
+	t_pslist *c;
+	t_pslist *d;
+	t_pslist *e;
+
+	a = *stack_a;
+	b = (*stack_a)->next;
+	c = (*stack_a)->next->next;
+	d = (*stack_a)->next->next->next;
+	e = (*stack_a)->next->next->next->next;
+	min = ft_find_min(stack_a);
+	printf("min 1: %d\n", min);
+
+	if (min == a->value)
+		ft_push(stack_a, stack_b, 2);
+	else if (min == b->value)
+	{
+		ft_swap(stack_a, 1, 1);
+		ft_push(stack_a, stack_b, 2);
+	}
+	else if (min == c->value)
+	{
+		ft_rotate(stack_a, 1, 1);
+		ft_rotate(stack_a, 1, 1);
+		ft_push(stack_a, stack_b, 2);
+	}
+	else if (min == d->value)
+	{
+		ft_rev_rotate(stack_a, 1, 1);
+		ft_rev_rotate(stack_a, 1, 1);
+		ft_push(stack_a, stack_b, 2);
+	}
+	else if (min == e->value)
+	{
+		ft_rev_rotate(stack_a, 1, 1);
+		ft_push(stack_a, stack_b, 2);
+		printf("1\n");
+	}
+	printf("2\n");
+	return ;
+	
+	min = ft_find_min(stack_a);
+	printf("min 2: %d", min);
+	if (min == a->value)
+		ft_push(stack_a, stack_b, 2);
+	else if (min == b->value)
+	{
+		ft_swap(stack_a, 1, 1);
+		ft_push(stack_a, stack_b, 2);
+	}
+	else if (min == c->value)
+	{
+		ft_rotate(stack_a, 1, 1);
+		ft_rotate(stack_a, 1, 1);
+		ft_push(stack_a, stack_b, 2);
+	}
+	else if (min == d->value)
+	{
+		ft_rev_rotate(stack_a, 1, 1);
+		ft_push(stack_a, stack_b, 2);
+	}
+	if (!(a->value < b->value && b->value < c->value))
+		ft_sort_three(stack_a);
+	ft_push(stack_b, stack_a, 1);
+	ft_push(stack_b, stack_a, 1);
+}
+
+void ft_push_swap(char **array)
+{
+	t_pslist *stack_a;
+	t_pslist *stack_b;
 
 	stack_a = ft_create_list(array);
 	stack_b = NULL;
 
 	ft_print_stack(stack_a, 'A');
 	ft_print_stack(stack_b, 'B');
-	printf("=======================");
+	printf("=======================\n");
 
-	ft_sort_three(&stack_a);
-
+	
+	//ft_sort_three(&stack_a);
+	ft_sort_five(&stack_a, &stack_b);
+	
 	ft_print_stack(stack_a, 'A');
 	ft_print_stack(stack_b, 'B');
-	printf("=======================");
+	printf("=======================\n");
 }

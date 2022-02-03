@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   push_swap.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marlean <marlean@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mariasavinova <mariasavinova@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/27 10:30:28 by marlean           #+#    #+#             */
-/*   Updated: 2022/02/03 18:02:37 by marlean          ###   ########.fr       */
+/*   Updated: 2022/02/03 23:16:37 by mariasavino      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,10 @@ t_pslist	*ft_pslstlast(t_pslist *lst);
 t_pslist	*ft_ps_one_before_lstlast(t_pslist *lst);
 
 void	ft_sort_three(t_pslist **stack);
+void	ft_sort_five(t_pslist **stack_a, t_pslist **stack_b);
+int		ft_find_min(t_pslist **stack);
 
-void		ft_print_stack(t_pslist *stack, char c);
+void	ft_print_stack(t_pslist *stack, char c);
 void		ft_print_arr(char **array);
 
 #endif
