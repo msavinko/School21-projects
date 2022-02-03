@@ -27,14 +27,14 @@ RM		= 	rm -f
 
 all		:	$(NAME)
 
-$(NAME)	:	$(OBJ) $(HEADER)
+$(NAME)	:	$(OBJ)
 	ar rcs $(NAME) $?
 
 %.o		:	%.c $(HEADER)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 bonus   :	$(OBJ_B) $(HEADER)
-	@make OBJ="$(OBJ_B)" all
+	@make OBJ="$(OBJ) $(OBJ_B)" all
 	
 clean	:
 	$(RM) $(OBJ) $(OBJ_B)

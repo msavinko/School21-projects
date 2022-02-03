@@ -6,7 +6,7 @@
 /*   By: marlean <marlean@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/12 17:14:31 by marlean           #+#    #+#             */
-/*   Updated: 2021/10/27 12:45:34 by marlean          ###   ########.fr       */
+/*   Updated: 2022/02/03 16:28:21 by marlean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ int		ft_isalpha(int ch);
 int		ft_isascii(int ch);
 int		ft_isdigit(int ch);
 int		ft_isprint(int ch);
+char	*ft_itoa(long int num);
 int		ft_tolower(int c);
 int		ft_toupper(int c);
 void	*ft_memcpy(void *dest, const void *source, size_t n);
@@ -51,7 +52,6 @@ void	ft_putendl_fd(char *s, int fd);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
 char	*ft_strjoin(char const *s1, char const *s2);
 char	*ft_strtrim(char const *s1, char const *set);
-char	*ft_itoa(unsigned long int num);
 void	ft_striteri(char *s, void (*f)(unsigned int, char*));
 char	*ft_strmapi(char const *s, char (*f)(unsigned int, char));
 char	**ft_split(char const *s, char c);
