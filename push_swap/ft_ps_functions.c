@@ -3,68 +3,115 @@
 /*                                                        :::      ::::::::   */
 /*   ft_ps_functions.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marlean <marlean@student.4(**stack)->next.fr>            +#+  +:+       +#+        */
+/*   By: marlean <marlean@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: (**stack)->next0(**stack)->next(**stack)->next/0(**stack)->next/0(**stack)->next (**stack)0:4(**stack):(**stack)->next6 by marlean           #+#    #+#             */
-/*   Updated: (**stack)->next0(**stack)->next(**stack)->next/0(**stack)->next/0(**stack)->next (**stack)4:0(**stack)->next:00 by marlean          ###   ########.fr       */
+/*   Created: 2022/02/03 14:55:21 by marlean           #+#    #+#             */
+/*   Updated: 2022/02/03 17:45:17 by marlean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-// sa : swap a - swap the first (**stack)->next elements at the top of stack a. Do nothing if there is only one or no elements).
-// sb : swap b - swap the first 2 elements at the top of stack b. Do nothing if there is only one or no elements).
-// ss : sa and sb at the same time.
-// pa : push a - take the first element at the top of b and put it at the top of a. Do nothing if b is empty.
-// pb : push b - take the first element at the top of a and put it at the top of b. Do nothing if a is empty.
+void	ft_push(t_pslist **stack_a, t_pslist **stack_b, int stack_num)
+{
+	t_pslist	*one_a;
+	t_pslist	*one_b;
 
-// ra : rotate a - shift up all elements of stack a by 1. The first element becomes the last one.
-// rb : rotate b - shift up all elements of stack b by 1. The first element becomes the last one.
-// rr : ra and rb at the same time.
-// rra : reverse rotate a - shift down all elements of stack a by 1. The last element becomes the first one.
-// rrb : reverse rotate b - shift down all elements of stack b by 1. The last element becomes the first one.
-// rrr : rra and rrb at the same time.
-void	ft_swap(t_pslist **stack)
+	if (!(*stack_a))
+		return ;
+	one_a = *stack_a;
+	one_b = *stack_b;
+	*stack_a = one_a->next;
+	one_a->next = one_b;
+	*stack_b = one_a;
+	if (stack_num == 1)
+		write(1, "pa\n", 3);
+	else if (stack_num == 2)
+		write(1, "pb\n", 3);
+}
+
+void	ft_swap(t_pslist **stack, int flag, int stack_num)
 {
 	t_pslist	*one;
 	t_pslist	*two;
+	t_pslist	*three;
 
-	if (!stack)
+	if (!(*stack) || ft_pslstsize(*stack) < 2)
 		return ;
 	one = *stack;
 	two = (*stack)->next;
-	one->next = two->next;
+	three = (*stack)->next->next;
+	*stack = one->next;
 	two->next = one;
-	*stack = two;
+	one->next = three;
+	if (flag != 2)
+	{
+		if (stack_num == 1)
+			write(1, "sa\n", 3);
+		else
+			write(1, "sb\n", 3);
+	}
 }
 
-void ft_ss(t_pslist **stack_a, t_pslist **stack_b)
-{
-	ft_swap(stack_a);
-	ft_swap(stack_b);
-}
-
-void	ft_push(t_pslist **stack_a, t_pslist **stack_b)
-{
-	t_pslist	*tmp;
-
-	if (!stack_a)
-		return ;
-	tmp = (*stack_a)->next;
-	(*stack_a)->next = *stack_b;
-	*stack_b = *stack_a;
-	*stack_a = tmp;
-}
-
-void	ft_rotate(t_pslist **stack)
+void	ft_rotate(t_pslist **stack, int flag, int stack_num)
 {
 	t_pslist	*first;
 	t_pslist	*last;
 
-	if (!stack)
-		return;
-	first = (*stack)->next;
-	last = ft_pslstlast(stack);
-	last->next = stack;
-	stack = last;
+	if (!(*stack) || ft_pslstsize(*stack) < 2)
+		return ;
+	first = *stack;
+	last = ft_pslstlast(*stack);
+	*stack = first->next;
+	last->next = first;
+	first->next = NULL;
+	if (flag != 2)
+	{
+		if (stack_num == 1)
+			write(1, "ra\n", 3);
+		else
+			write(1, "rb\n", 3);
+	}
+}
+
+void	ft_rev_rotate(t_pslist **stack, int flag, int stack_num)
+{
+	t_pslist	*one;
+	t_pslist	*two;
+	t_pslist	*three;
+
+	if (!(*stack) || ft_pslstsize(*stack) < 2)
+		return ;
+	one = *stack;
+	two = ft_ps_one_before_lstlast(*stack);
+	three = ft_pslstlast(*stack);
+	*stack = three;
+	three->next = one;
+	two->next = NULL;
+	if (flag != 2)
+	{
+		if (stack_num == 1)
+			write(1, "rra\n", 4);
+		else
+			write(1, "rrb\n", 4);
+	}
+}
+
+void	ft_double(t_pslist **stack_a, t_pslist **stack_b,
+	void (*ft_action)(t_pslist **stack, int flag, int stack_num))
+{
+	int	flag;
+
+	flag = 2;
+	if (!(*stack_a) || !(*stack_b) || ft_pslstsize(*stack_a) < 2
+		|| ft_pslstsize(*stack_b) < 2)
+		return ;
+	ft_action(stack_a, flag, 1);
+	ft_action(stack_b, flag, 2);
+	if (ft_action == ft_swap)
+		write(1, "ss\n", 3);
+	else if (ft_action == ft_rotate)
+		write(1, "rr\n", 3);
+	else if (ft_action == ft_rev_rotate)
+		write(1, "rrr\n", 4);
 }

@@ -6,17 +6,33 @@
 /*   By: marlean <marlean@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/28 09:17:27 by marlean           #+#    #+#             */
-/*   Updated: 2022/02/02 10:23:08 by marlean          ###   ########.fr       */
+/*   Updated: 2022/02/03 15:57:05 by marlean          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
+void	ft_error(int error_code)
+{
+	write(2, "Error\n", 6);
+	exit(error_code);
+}
+
+int	ft_array_len(char **array)
+{
+	int	i;
+
+	i = 0;
+	while (array[i])
+		i++;
+	return (i);
+}
+
 int	ft_isint(char *str)
 {
 	long long int	num;
 	int				i;
-	
+
 	num = 0;
 	i = 0;
 	while (str[i])
@@ -34,9 +50,37 @@ int	ft_isint(char *str)
 		return (1);
 }
 
-void	ft_check_int(char **array)
+int	ft_create_int_array_and_check_sort(char **array, int len)
 {
 	int	i;
+	int	*new_array;
+
+	i = 0;
+	new_array = malloc(len * sizeof(int));
+	while (array[i])
+	{
+		new_array[i] = ft_atoi(array[i]);
+		i++;
+	}
+	i = 0;
+	while (i < len - 1)
+	{
+		if (new_array[i] < new_array[i + 1])
+			i++;
+		else
+		{
+			free(new_array);
+			return (1);
+		}
+	}
+	free(new_array);
+	return (0);
+}
+
+int	ft_check(char **array)
+{
+	int	i;
+	int	j;
 
 	i = 0;
 	while (array[i])
@@ -46,24 +90,18 @@ void	ft_check_int(char **array)
 		else
 			ft_error(1);
 	}
-}
-
-void	ft_check_repeat(char **array)
-{
-	int	i;
-	int	j;
-
 	i = 0;
 	while (array[i])
 	{
 		j = i + 1;
 		while (array[j])
 		{
-			if (!ft_strncmp(array[i], array[j], 11))
+			if (!ft_strncmp(array[i], array[j++], 11))
 				ft_error(1);
-			else
-				j++;
 		}
 		i++;
 	}
+	if (ft_create_int_array_and_check_sort(array, ft_array_len(array)))
+		return (1);
+	return (0);
 }

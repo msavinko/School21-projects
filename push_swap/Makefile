@@ -5,7 +5,7 @@ LIBFT	=	$(LIB_DIR)libft.a
 
 HEADER	=	push_swap.h
 
-SRCS	=	push_swap.c ft_check.c ft_ps_utils.c\
+SRCS	=	push_swap.c ft_check.c\
 			ft_pslist.c ft_ps_functions.c
 OBJS	=	$(SRCS:.c=.o)
 
